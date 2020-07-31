@@ -68,3 +68,8 @@ Verfügbare Attribute von /gset:
 /gwrelaod – Gworld.reload
 
 /grecreate – Gworld.recreate
+
+
+
+
+#### Copyright © 2020 Gilljan. All rights reserved.
