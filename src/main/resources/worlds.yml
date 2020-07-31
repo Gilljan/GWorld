@@ -1,0 +1,43 @@
+LoadWorlds:
+  - world
+  - world_nether
+  - world_the_end
+
+
+Worlds:
+  world:
+    type: normal
+    timeCycle: true
+    time: 6000
+    weatherCycle: true
+    weather: sun
+    pvp: true
+    mobs: true
+    animals: true
+    forcedGamemode: false
+    defaultGamemode: SURVIVAL
+    difficulty: NORMAL
+  world_nether:
+    type: nether
+    timeCycle: true
+    time: 6000
+    weatherCycle: true
+    weather: sun
+    pvp: true
+    mobs: true
+    animals: true
+    forcedGamemode: false
+    defaultGamemode: SURVIVAL
+    difficulty: NORMAL
+  world_the_end:
+    type: normal
+    timeCycle: true
+    time: 6000
+    weatherCycle: true
+    weather: sun
+    pvp: true
+    mobs: true
+    animals: true
+    forcedGamemode: false
+    defaultGamemode: SURVIVAL
+    difficulty: NORMAL
