@@ -47,7 +47,7 @@ Verfügbare Attribute von /gset:
 ## Permissions​
 
 
-### gworld.* – get all permissions
+#### gworld.* – get all permissions
 
 /gcreate – Gworld.create
 
