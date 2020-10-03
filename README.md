@@ -43,6 +43,10 @@ Verfügbare Attribute von /gset:
 
 /grecreate – Create a world based on an old world new
 
+/gload - Load worlds that are already imported
+
+/gunload - Unload imported worlds.
+
 
 ## Permissions​
 
@@ -69,7 +73,11 @@ Verfügbare Attribute von /gset:
 
 /grecreate – Gworld.recreate
 
+/gload - Gworld.load
+
+/gunload - Gworld.unload
 
 
 
-#### Copyright © 2020 Gilljan. All rights reserved.
+
+##### Copyright © 2020 Gilljan. All rights reserved.
