@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Gilljan 2020. All rights reserved.
+ */
+
 package de.gilljan.gworld.commands;
 
 import de.gilljan.gworld.Main;
@@ -37,29 +41,31 @@ public class GDelete_cmd implements CommandExecutor, TabCompleter {
                     String worldName = args[0];
                     String confirm = args[1];
                     if (confirm.equalsIgnoreCase("confirm")) {
-                        if (Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && Main.loadedWorlds.contains(worldName)) {
-                            for (Player all : Bukkit.getOnlinePlayers()) {
-                                if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
-                                    all.teleport(Bukkit.getWorld(Main.getConfigs().get("config").getString("MainWorld")).getSpawnLocation());
-                                    all.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.teleport_players").replaceAll("%world%", worldName));
+                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                            if (Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && Main.loadedWorlds.contains(worldName)) {
+                                for (Player all : Bukkit.getOnlinePlayers()) {
+                                    if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
+                                        all.teleport(Bukkit.getWorld(Main.getConfigs().get("config").getString("MainWorld")).getSpawnLocation());
+                                        all.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.teleport_players").replaceAll("%world%", worldName));
+                                    }
                                 }
-                            }
-                            Bukkit.getWorlds().remove(Bukkit.getWorld(worldName));
-                            Bukkit.unloadWorld(Bukkit.getWorld(worldName), true);
-                            Main.loadedWorlds.remove(worldName);
-                            Main.getMapinfos().remove(worldName);
-                            Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
-                            File world = new File(Bukkit.getWorldContainer() + "//" + worldName);
-                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.success").replaceAll("%world%", worldName));
-                            Main.getConfigs().get("worlds").getConfigurationSection("Worlds").set(worldName, null);
-                            try {
-                                Main.getConfigs().get("worlds").save(Main.getWorlds());
-                                FileUtils.deleteDirectory(world);
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        } else
-                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.failed").replaceAll("%world%", worldName));
+                                Bukkit.getWorlds().remove(Bukkit.getWorld(worldName));
+                                Bukkit.unloadWorld(Bukkit.getWorld(worldName), true);
+                                Main.loadedWorlds.remove(worldName);
+                                Main.getMapinfos().remove(worldName);
+                                Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
+                                File world = new File(Bukkit.getWorldContainer(), worldName);
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.success").replaceAll("%world%", worldName));
+                                Main.getConfigs().get("worlds").getConfigurationSection("Worlds").set(worldName, null);
+                                try {
+                                    Main.getConfigs().get("worlds").save(Main.getWorlds());
+                                    FileUtils.deleteDirectory(world);
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.failed").replaceAll("%world%", worldName));
+                        } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.use"));
                 } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Delete.use"));
             } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("NoPerm"));

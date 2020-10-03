@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Gilljan 2020. All rights reserved.
+ */
+
 package de.gilljan.gworld.utils;
 
 import de.gilljan.gworld.Main;
@@ -28,5 +32,7 @@ public class SendMessage_util {
                 .replaceAll("&u", "§u")
                 .replaceAll("&r", "§r")
                 .replaceAll("&k", "§k");
+
     }
+
 }

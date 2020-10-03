@@ -30,7 +30,7 @@ Worlds:
     defaultGamemode: SURVIVAL
     difficulty: NORMAL
   world_the_end:
-    type: normal
+    type: end
     timeCycle: true
     time: 6000
     weatherCycle: true

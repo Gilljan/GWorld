@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Gilljan 2020. All rights reserved.
+ */
+
 package de.gilljan.gworld.commands;
 
 import de.gilljan.gworld.Main;
@@ -47,57 +51,60 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
                     String keepSaved = args[1];
                     long seed;
                     if (confirmation.equalsIgnoreCase("confirm")) {
-                        if (world.exists()) {
-                            if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
-                                seed = Bukkit.getWorld(worldName).getSeed();
-                                if (keepSaved.equalsIgnoreCase("false")) {
-                                    for (Player all : Bukkit.getOnlinePlayers()) {
-                                        if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
-                                            all.teleport(Bukkit.getWorld(Main.getConfigs().get("config").getString("MainWorld")).getSpawnLocation());
-                                            all.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.teleport_players").replaceAll("%world%", worldName));
-                                        }
-                                    }
-                                    Bukkit.unloadWorld(worldName, true);
-                                    try {
-                                        FileUtils.deleteDirectory(world);
-                                    } catch (IOException e) {
-                                        try {
-                                            File dir = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//");
-                                            if (!dir.exists()) {
-                                                dir.mkdir();
+                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                            if (world.exists()) {
+                                if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+                                    seed = Bukkit.getWorld(worldName).getSeed();
+                                    if (keepSaved.equalsIgnoreCase("false")) {
+                                        for (Player all : Bukkit.getOnlinePlayers()) {
+                                            if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
+                                                all.teleport(Bukkit.getWorld(Main.getConfigs().get("config").getString("MainWorld")).getSpawnLocation());
+                                                all.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.teleport_players").replaceAll("%world%", worldName));
                                             }
-                                            File target = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//" + worldName + "-" + new Date());
-                                            FileUtils.moveDirectory(world, target);
-                                            recreateMap(worldName, seed);
-                                        } catch (IOException ex) {
-                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.failed"));
                                         }
-                                    }
-                                    recreateMap(worldName, seed);
-                                } else {
-                                    for (Player all : Bukkit.getOnlinePlayers()) {
-                                        if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
-                                            all.teleport(Bukkit.getWorld(Main.getConfigs().get("config").getString("MainWorld")).getSpawnLocation());
-                                            all.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.teleport_players").replaceAll("%world%", worldName));
+                                        Bukkit.unloadWorld(worldName, true);
+                                        try {
+                                            FileUtils.deleteDirectory(world);
+                                        } catch (IOException e) {
+                                            try {
+                                                File dir = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//");
+                                                if (!dir.exists()) {
+                                                    dir.mkdir();
+                                                }
+                                                File target = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//" + worldName + "-" + new Date());
+                                                FileUtils.moveDirectory(world, target);
+                                                recreateMap(worldName, seed);
+                                            } catch (IOException ex) {
+                                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.failed"));
+                                            }
                                         }
-                                    }
-                                    Bukkit.unloadWorld(worldName, true);
-                                    File dir = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//");
-                                    if (!dir.exists()) {
-                                        dir.mkdir();
-                                    }
-                                    File target = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//" + worldName + "-" + new Date());
-                                    try {
-                                        FileUtils.moveDirectory(world, target);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.creating").replaceAll("%world%", worldName));
                                         recreateMap(worldName, seed);
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.success").replaceAll("%world%", worldName));
-                                    } catch (Exception e) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.failed").replaceAll("%world%", worldName));
+                                    } else {
+                                        for (Player all : Bukkit.getOnlinePlayers()) {
+                                            if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
+                                                all.teleport(Bukkit.getWorld(Main.getConfigs().get("config").getString("MainWorld")).getSpawnLocation());
+                                                all.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.teleport_players").replaceAll("%world%", worldName));
+                                            }
+                                        }
+                                        Bukkit.unloadWorld(worldName, true);
+                                        File dir = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//");
+                                        if (!dir.exists()) {
+                                            dir.mkdir();
+                                        }
+                                        File target = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//" + worldName + "-" + new Date());
+                                        try {
+                                            FileUtils.moveDirectory(world, target);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.creating").replaceAll("%world%", worldName));
+                                            recreateMap(worldName, seed);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.success").replaceAll("%world%", worldName));
+                                        } catch (Exception e) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.failed").replaceAll("%world%", worldName));
+                                        }
                                     }
                                 }
                             }
-                        }
+                        } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.use"));
                 } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.use"));
             }

@@ -1,12 +1,13 @@
+/*
+ * Copyright (c) Gilljan 2020. All rights reserved.
+ */
+
 package de.gilljan.gworld.commands;
 
 import de.gilljan.gworld.Main;
 import de.gilljan.gworld.utils.MapInformation;
 import de.gilljan.gworld.utils.SendMessage_util;
-import org.bukkit.Bukkit;
-import org.bukkit.Difficulty;
-import org.bukkit.GameMode;
-import org.bukkit.WorldCreator;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,8 +27,10 @@ public class GWReload_cmd implements CommandExecutor {
                         Main.getConfigs().put("worlds", YamlConfiguration.loadConfiguration(Main.getWorlds()));
                         Main.loadedWorlds.clear();
                         for (int i = 0; i < Main.getConfigs().get("worlds").getStringList("LoadWorlds").size(); i++) {
-                            Main.loadedWorlds.add(Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i));
+                            if(Main.getConfigs().get("worlds").get("Worlds." + Main.loadedWorlds.get(i)) != null && new File(Bukkit.getWorldContainer(), Main.loadedWorlds.get(i)).exists())
+                                Main.loadedWorlds.add(Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i));
                         }
+
                         Main.getMapinfos().clear();
                         for (int i = 0; i < Main.loadedWorlds.size(); i++) {
                             Main.getMapinfos().put(Main.loadedWorlds.get(i), new MapInformation(
@@ -44,6 +47,19 @@ public class GWReload_cmd implements CommandExecutor {
                                     Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".difficulty")
                             ));
                             WorldCreator w = WorldCreator.name(Main.loadedWorlds.get(i));
+                            if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("normal")) {
+                                w.type(WorldType.NORMAL);
+                            } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("end")) {
+                                w.environment(World.Environment.THE_END);
+                            } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("amplified")) {
+                                w.type(WorldType.AMPLIFIED);
+                            } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("nether")) {
+                                w.environment(World.Environment.NETHER);
+                            } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("flat")) {
+                                w.type(WorldType.FLAT);
+                            } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("large_biomes")) {
+                                w.type(WorldType.LARGE_BIOMES);
+                            } else w.type(WorldType.NORMAL);
                             Bukkit.createWorld(w);
                             if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isMobSpawning()) {
                                 Bukkit.getWorld(Main.loadedWorlds.get(i)).setGameRuleValue("doMobSpawning", "false");

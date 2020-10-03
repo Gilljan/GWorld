@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Gilljan 2020. All rights reserved.
+ */
+
 package de.gilljan.gworld.commands;
 
 import de.gilljan.gworld.Main;

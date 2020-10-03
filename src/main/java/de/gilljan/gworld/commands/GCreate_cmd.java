@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) Gilljan 2020. All rights reserved.
+ */
+
 package de.gilljan.gworld.commands;
 
 import de.gilljan.gworld.Main;
@@ -46,76 +50,78 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                     String value = args[2];
                     try {
                         value1 = Long.parseLong(args[2]);
-                    } catch (NumberFormatException | NullPointerException ex) {
+                    } catch (NumberFormatException | NullPointerException ignored) {
                     }
                     Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                         if (value.equalsIgnoreCase("confirm") && value1 == null) {
-                            if (!world.exists()) {
-                                if (type != null) {
-                                    if (type.equalsIgnoreCase("normal")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.NORMAL;
-                                        w.type(wT);
-                                        MapInformation.createMapInfos(worldName, "normal");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("end")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        w.environment(World.Environment.THE_END);
-                                        MapInformation.createMapInfos(worldName, "end");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("nether")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        w.environment(World.Environment.NETHER);
-                                        MapInformation.createMapInfos(worldName, "nether");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("amplified")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.AMPLIFIED;
-                                        w.type(wT);
-                                        MapInformation.createMapInfos(worldName, "ampliefied");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("large_biomes")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.LARGE_BIOMES;
-                                        w.type(wT);
-                                        MapInformation.createMapInfos(worldName, "large_biomes");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("flat")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.FLAT;
-                                        w.type(wT);
-                                        MapInformation.createMapInfos(worldName, "flat");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                            if(!worldName.contains(".") & !worldName.contains("/")  & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                                if (!world.exists()) {
+                                    if (type != null) {
+                                        if (type.equalsIgnoreCase("normal")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.NORMAL;
+                                            w.type(wT);
+                                            MapInformation.createMapInfos(worldName, "normal");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("end")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            w.environment(World.Environment.THE_END);
+                                            MapInformation.createMapInfos(worldName, "end");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("nether")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            w.environment(World.Environment.NETHER);
+                                            MapInformation.createMapInfos(worldName, "nether");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("amplified")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.AMPLIFIED;
+                                            w.type(wT);
+                                            MapInformation.createMapInfos(worldName, "ampliefied");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("large_biomes")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.LARGE_BIOMES;
+                                            w.type(wT);
+                                            MapInformation.createMapInfos(worldName, "large_biomes");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("flat")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.FLAT;
+                                            w.type(wT);
+                                            MapInformation.createMapInfos(worldName, "flat");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
                                     } else
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                } else
-                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
-                                    Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
-                                }
-                                if (!Main.loadedWorlds.contains(worldName)) {
-                                    Main.loadedWorlds.add(worldName);
-                                    Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
-                                    try {
-                                        Main.getConfigs().get("worlds").save(Main.getWorlds());
-                                    } catch (IOException ex) {
-                                        ex.printStackTrace();
+                                    if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+                                        Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
                                     }
-                                }
-                            } else
-                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
+                                    if (!Main.loadedWorlds.contains(worldName)) {
+                                        Main.loadedWorlds.add(worldName);
+                                        Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
+                                        try {
+                                            Main.getConfigs().get("worlds").save(Main.getWorlds());
+                                        } catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        }
+                                    }
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
+                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                         } else if (value1 != null) {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
@@ -139,77 +145,79 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                     String confirm = args[3];
                     Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                         if (confirm.equalsIgnoreCase("confirm")) {
-                            if (!world.exists()) {
-                                if (type != null) {
-                                    if (type.equalsIgnoreCase("normal")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.NORMAL;
-                                        w.type(wT);
-                                        w.seed(value1);
-                                        MapInformation.createMapInfos(worldName, "normal");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("end")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        w.environment(World.Environment.THE_END);
-                                        w.seed(value1);
-                                        MapInformation.createMapInfos(worldName, "end");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("nether")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        w.environment(World.Environment.NETHER);
-                                        w.seed(value1);
-                                        MapInformation.createMapInfos(worldName, "nether");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("amplified")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.AMPLIFIED;
-                                        w.type(wT);
-                                        w.seed(value1);
-                                        MapInformation.createMapInfos(worldName, "ampliefied");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("large_biomes")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.LARGE_BIOMES;
-                                        w.type(wT);
-                                        w.seed(value1);
-                                        MapInformation.createMapInfos(worldName, "large_biomes");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
-                                    } else if (type.equalsIgnoreCase("flat")) {
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
-                                        WorldCreator w = WorldCreator.name(worldName);
-                                        WorldType wT = WorldType.FLAT;
-                                        w.type(wT);
-                                        w.seed(value1);
-                                        MapInformation.createMapInfos(worldName, "flat");
-                                        Bukkit.createWorld(w);
-                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                            if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                                if (!world.exists()) {
+                                    if (type != null) {
+                                        if (type.equalsIgnoreCase("normal")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.NORMAL;
+                                            w.type(wT);
+                                            w.seed(value1);
+                                            MapInformation.createMapInfos(worldName, "normal");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("end")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            w.environment(World.Environment.THE_END);
+                                            w.seed(value1);
+                                            MapInformation.createMapInfos(worldName, "end");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("nether")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            w.environment(World.Environment.NETHER);
+                                            w.seed(value1);
+                                            MapInformation.createMapInfos(worldName, "nether");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("amplified")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.AMPLIFIED;
+                                            w.type(wT);
+                                            w.seed(value1);
+                                            MapInformation.createMapInfos(worldName, "ampliefied");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("large_biomes")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.LARGE_BIOMES;
+                                            w.type(wT);
+                                            w.seed(value1);
+                                            MapInformation.createMapInfos(worldName, "large_biomes");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else if (type.equalsIgnoreCase("flat")) {
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
+                                            WorldCreator w = WorldCreator.name(worldName);
+                                            WorldType wT = WorldType.FLAT;
+                                            w.type(wT);
+                                            w.seed(value1);
+                                            MapInformation.createMapInfos(worldName, "flat");
+                                            Bukkit.createWorld(w);
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
+                                        } else
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
                                     } else
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                } else
-                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
-                                    Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
-                                }
-                                if (!Main.loadedWorlds.contains(worldName)) {
-                                    Main.loadedWorlds.add(worldName);
-                                    Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
-                                    try {
-                                        Main.getConfigs().get("worlds").save(Main.getWorlds());
-                                    } catch (IOException ex) {
-                                        ex.printStackTrace();
+                                    if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+                                        Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
+                                    }
+                                    if (!Main.loadedWorlds.contains(worldName)) {
+                                        Main.loadedWorlds.add(worldName);
+                                        Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
+                                        try {
+                                            Main.getConfigs().get("worlds").save(Main.getWorlds());
+                                        } catch (IOException ex) {
+                                            ex.printStackTrace();
+                                        }
                                     }
                                 }
-                            }
+                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                         } else
                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
                     });

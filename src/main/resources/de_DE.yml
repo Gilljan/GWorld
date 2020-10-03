@@ -1,4 +1,5 @@
 NoPerm: '&cDazu hast du keine Rechte!'
+SecurityMessage: '&cAus Sicherheitsgründen darf ein Weltenname keine Punkte (.) oder Schrägstriche (/) enthalten.'
 Create:
   confirm_player: '&cBitte bestätige den Command durch das Klicken unten oder schreibe direkt &econfirm &chinter den Command.'
   confirm_console: '&cBitte bestätige den Command indem du &econfirm &chinter den Command schreibst.'
@@ -89,3 +90,18 @@ Recreate:
   failed: '&cDie Welt &e%world% &ckonnte nicht neu erstellt werden.'
   teleport_players: '&cDa die Welt &e%world% &cneu erstellt wurde, wurdest du auf die Standart Welt teleportiert!'
   use: '&cBenutze: /grecreate <Weltenname> <speichern (true:false)>'
+Unload:
+  confirm_player: '&cBitte bestätige den Command durch das Klicken unten oder schreibe direkt &econfirm &chinter den Command.'
+  confirm_console: '&cBitte bestätige den Command indem du &econfirm &chinter den Command schreibst.'
+  unloading: '&aDie Welt &e%world% &awird nun entladen.'
+  success: '&aDie Welt &e%world% &awurde erfolgreich entladen.'
+  failed: '&cDie Welt &e%world% &ckonnte nicht entladen werden.'
+  teleport_players: '&cDa die Welt &e%world% &centladen wurde, wurdest du auf die Standard Welt teleportiert!'
+  use: '&cBenutze: /gunload <Weltenname>'
+Load:
+  confirm_player: '&cBitte bestätige den Command durch das Klicken unten oder schreibe direkt &econfirm &chinter den Command.'
+  confirm_console: '&cBitte bestätige den Command indem du &econfirm &chinter den Command schreibst.'
+  loading: '&aDie Welt &e%world% &awird nun geladen.'
+  success: '&aDie Welt &e%world% &awurde erfolgreich geladen.'
+  failed: '&cDie Welt &e%world% &ckonnte nicht geladen werden.'
+  use: '&cBenutze: /gload <Weltenname>'

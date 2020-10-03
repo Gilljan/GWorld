@@ -1,4 +1,5 @@
 NoPerm: '&cYou do not have the permission for that!'
+SecurityMessage: '&cFor security reasons, a world name may not contains dots (.) or slashes (/).'
 Create:
   confirm_player: '&cPlease confirm the command by clicking below or write &econfirm &cdirectly behind the command.'
   confirm_console: '&cPlease confirm the command by typing &econfirm &cafter the command.'
@@ -88,3 +89,18 @@ Recreate:
   failed: '&cThe world &e%world% &ccould not be recreated.'
   teleport_players: '&cSince the world &e%world% &cwas recreated, you were teleported to the default world!'
   use: '&cUse: /grecreate <worldname> <keepSaved (true:false)>'
+Unload:
+  confirm_player: '&cPlease confirm the command by clicking below or write &econfirm &cdirectly behind the command.'
+  confirm_console: '&cPlease confirm the command by typing &econfirm &cafter the command.'
+  unloading: '&aThe world &e%world% &ais now unloading.'
+  success: '&aThe world &e%world% &awas successfully unloaded.'
+  failed: '&cThe world &e%world% &ccould not be unloaded.'
+  teleport_players: '&cDa die Welt &e%world% &centladen wurde, wurdest du auf die Standard Welt teleportiert!'
+  use: '&cUse: /gunload <worldname>'
+Load:
+  confirm_player: '&cPlease confirm the command by clicking below or write &econfirm &cdirectly behind the command.'
+  confirm_console: '&cPlease confirm the command by typing &econfirm &cafter the command.'
+  loading: '&aThe world &e%world% &ais now loading.'
+  success: '&aThe world &e%world% &awas successfully loaded.'
+  failed: '&cThe world &e%world% &ccould not be loaded.'
+  use: '&cUse: /gload <worldname>'
