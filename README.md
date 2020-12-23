@@ -23,9 +23,9 @@ Verfügbare Attribute von /gset:
 
     timeCycle – toggle day and night cycle
     time – default time when the day and night cycle is disabled
-    weatherCycle – toogle weather cycle (storm, sun, rain)
+    weatherCycle – toggle weather cycle (storm, sun, rain)
     weather – default weather when the weather cycle is disabled
-    pvp – toogle pvp for each world
+    pvp – toggle pvp for each world
     mobs – toggle spawning of monsters
     animals – toggle spawning of animals
     forcedGamemode – toggle setting a default gamemode for all players of a world
@@ -80,4 +80,4 @@ Verfügbare Attribute von /gset:
 
 
 
-##### Copyright © 2020 Gilljan. All rights reserved.
+###### Copyright © 2020 Gilljan. All rights reserved.
