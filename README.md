@@ -80,4 +80,4 @@ Verfügbare Attribute von /gset:
 
 
 
-###### Copyright © 2020 Gilljan. All rights reserved.
+###### Copyright © 2020-2021 Gilljan. All rights reserved.
