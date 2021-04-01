@@ -7,13 +7,14 @@ GWorld offers a comprehensive system to manage your worlds.
 
 The plugin manages your worlds. You can import, create, recreate, clone, set attributes (for example MobSpawning) and delete worlds. Furthermore, you can customize all messages according to your wishes. We provide a German and an English language file. In addition, all commands can be tabbed in the console as well as in user chat, as long as you have the permission of the specific command.
 
+**NEW: WorldGenerator support**
+
 
 ## Commands:​
 
+/gcreate (world name) (world type) {seed} {worldGenerator} – create new worlds. A world can also be created based on a seed and a generator
 
-/gcreate <world name> <world type> {seed} – create new worlds. A world can also be created based on a seed
-
-/gimport <world name> <world type> – import unloaded worlds
+/gimport (world name) (world type) {generator} – import unloaded worlds
 
 /gclone <world name> <target world name> <world type> – clone worlds
 
@@ -76,6 +77,10 @@ Verfügbare Attribute von /gset:
 /gload - Gworld.load
 
 /gunload - Gworld.unload
+
+gworld.updatenotification - Get a notification, when GWorld was updaded
+
+gworld.notify - Get a notification, when GWorld imported a world automatically
 
 
 
