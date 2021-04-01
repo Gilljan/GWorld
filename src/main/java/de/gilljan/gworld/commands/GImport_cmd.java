@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.commands;
@@ -44,7 +44,72 @@ public class GImport_cmd implements CommandExecutor, TabCompleter {
                 } else if (args.length == 3) {
                     String worldName = args[0];
                     String type = args[1];
-                    String confirm = args[2];
+                    String value = args[2];
+                    File file = new File(Bukkit.getWorldContainer(), worldName);
+                    if (value.equalsIgnoreCase("confirm")) {
+                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                            if (file.exists()) {
+                                if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !Main.loadedWorlds.contains(worldName)) {
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.creating").replaceAll("%world%", worldName));
+                                    if (type.equalsIgnoreCase("normal")) {
+                                        createWorld(sender, worldName, type, WorldType.NORMAL, null, null);
+                                    } else if (type.equalsIgnoreCase("end")) {
+                                        createWorld(sender, worldName, type, null, World.Environment.THE_END, null);
+                                    } else if (type.equalsIgnoreCase("amplified")) {
+                                        createWorld(sender, worldName, type, WorldType.AMPLIFIED, null, null);
+                                    } else if (type.equalsIgnoreCase("nether")) {
+                                        createWorld(sender, worldName, type, null, World.Environment.NETHER, null);
+                                    } else if (type.equalsIgnoreCase("flat")) {
+                                        createWorld(sender, worldName, type, WorldType.FLAT, null, null);
+                                    } else if (type.equalsIgnoreCase("large_biomes")) {
+                                        createWorld(sender, worldName, type, WorldType.LARGE_BIOMES, null, null);
+                                    } else
+                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.failed").replaceAll("%world%", worldName));
+                                } else if (Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !Main.loadedWorlds.contains(worldName)) {
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.creating").replaceAll("%world%", worldName));
+                                    if (type.equalsIgnoreCase("normal")) {
+                                        MapInformation.createMapInfos(worldName, "normal", null);
+                                    } else if (type.equalsIgnoreCase("end")) {
+                                        MapInformation.createMapInfos(worldName, "end", null);
+                                    } else if (type.equalsIgnoreCase("amplified")) {
+                                        MapInformation.createMapInfos(worldName, "amplified", null);
+                                    } else if (type.equalsIgnoreCase("nether")) {
+                                        MapInformation.createMapInfos(worldName, "nether", null);
+                                    } else if (type.equalsIgnoreCase("flat")) {
+                                        MapInformation.createMapInfos(worldName, "flat", null);
+                                    } else if (type.equalsIgnoreCase("large_biomes")) {
+                                        MapInformation.createMapInfos(worldName, "large_biomes", null);
+                                    } else
+                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.failed").replaceAll("%world%", worldName));
+                                    Main.loadedWorlds.add(worldName);
+                                    Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
+                                    try {
+                                        Main.getConfigs().get("worlds").save(Main.getWorlds());
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.success").replaceAll("%world%", worldName));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.failed").replaceAll("%world%", worldName));
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.failed").replaceAll("%world%", worldName));
+                        } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
+                    } else {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.confirm_player"));
+                            TextComponent tc = new TextComponent();
+                            tc.setText("§a[Confirm]");
+                            tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gimport " + worldName + " " + type + " " + value +  " confirm"));
+                            p.spigot().sendMessage(tc);
+                        } else
+                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.confirm_console"));
+                    }
+                } else if(args.length == 4) {
+                    String worldName = args[0];
+                    String type = args[1];
+                    String value = args[2];
+                    String confirm = args[3];
                     File file = new File(Bukkit.getWorldContainer(), worldName);
                     if (confirm.equalsIgnoreCase("confirm")) {
                         if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
@@ -52,33 +117,33 @@ public class GImport_cmd implements CommandExecutor, TabCompleter {
                                 if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !Main.loadedWorlds.contains(worldName)) {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.creating").replaceAll("%world%", worldName));
                                     if (type.equalsIgnoreCase("normal")) {
-                                        createWorld(sender, worldName, type, WorldType.NORMAL, null);
+                                        createWorld(sender, worldName, type, WorldType.NORMAL, null, value);
                                     } else if (type.equalsIgnoreCase("end")) {
-                                        createWorld(sender, worldName, type, null, World.Environment.THE_END);
+                                        createWorld(sender, worldName, type, null, World.Environment.THE_END, value);
                                     } else if (type.equalsIgnoreCase("amplified")) {
-                                        createWorld(sender, worldName, type, WorldType.AMPLIFIED, null);
+                                        createWorld(sender, worldName, type, WorldType.AMPLIFIED, null, value);
                                     } else if (type.equalsIgnoreCase("nether")) {
-                                        createWorld(sender, worldName, type, null, World.Environment.NETHER);
+                                        createWorld(sender, worldName, type, null, World.Environment.NETHER, value);
                                     } else if (type.equalsIgnoreCase("flat")) {
-                                        createWorld(sender, worldName, type, WorldType.FLAT, null);
+                                        createWorld(sender, worldName, type, WorldType.FLAT, null, value);
                                     } else if (type.equalsIgnoreCase("large_biomes")) {
-                                        createWorld(sender, worldName, type, WorldType.LARGE_BIOMES, null);
+                                        createWorld(sender, worldName, type, WorldType.LARGE_BIOMES, null, value);
                                     } else
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.failed").replaceAll("%world%", worldName));
                                 } else if (Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !Main.loadedWorlds.contains(worldName)) {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.creating").replaceAll("%world%", worldName));
                                     if (type.equalsIgnoreCase("normal")) {
-                                        MapInformation.createMapInfos(worldName, "normal");
+                                        MapInformation.createMapInfos(worldName, "normal", value);
                                     } else if (type.equalsIgnoreCase("end")) {
-                                        MapInformation.createMapInfos(worldName, "end");
+                                        MapInformation.createMapInfos(worldName, "end", value);
                                     } else if (type.equalsIgnoreCase("amplified")) {
-                                        MapInformation.createMapInfos(worldName, "amplified");
+                                        MapInformation.createMapInfos(worldName, "amplified", value);
                                     } else if (type.equalsIgnoreCase("nether")) {
-                                        MapInformation.createMapInfos(worldName, "nether");
+                                        MapInformation.createMapInfos(worldName, "nether", value);
                                     } else if (type.equalsIgnoreCase("flat")) {
-                                        MapInformation.createMapInfos(worldName, "flat");
+                                        MapInformation.createMapInfos(worldName, "flat", value);
                                     } else if (type.equalsIgnoreCase("large_biomes")) {
-                                        MapInformation.createMapInfos(worldName, "large_biomes");
+                                        MapInformation.createMapInfos(worldName, "large_biomes", value);
                                     } else
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.failed").replaceAll("%world%", worldName));
                                     Main.loadedWorlds.add(worldName);
@@ -101,13 +166,16 @@ public class GImport_cmd implements CommandExecutor, TabCompleter {
         return false;
     }
 
-    public static void createWorld(CommandSender sender, String worldName, String type, WorldType worldType, World.Environment environment) {
-        MapInformation.createMapInfos(worldName, type);
+    public static void createWorld(CommandSender sender, String worldName, String type, WorldType worldType, World.Environment environment, String generator) {
+        MapInformation.createMapInfos(worldName, type, generator);
         WorldCreator w = WorldCreator.name(worldName);
         if (worldType == null) {
             w.environment(environment);
         } else if (environment == null) {
             w.type(worldType);
+        }
+        if(generator != null) {
+            w.generator(generator);
         }
         File target = new File(Bukkit.getWorldContainer(), worldName);
         try {
@@ -115,9 +183,9 @@ public class GImport_cmd implements CommandExecutor, TabCompleter {
         } catch (Exception ex) {
 
         }
+        Main.loadedWorlds.add(worldName);
         Bukkit.createWorld(w);
         Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
-        Main.loadedWorlds.add(worldName);
         Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
         try {
             Main.getConfigs().get("worlds").save(Main.getWorlds());

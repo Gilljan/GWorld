@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.commands;
@@ -12,9 +12,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-public class GUnload_cmd implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class GUnload_cmd implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -35,7 +39,7 @@ public class GUnload_cmd implements CommandExecutor {
                     String worldName = args[0];
                     String confirm = args[1];
                     if(confirm.equalsIgnoreCase("confirm")) {
-                        if(worldName.contains(".") & worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                             if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                                 try {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.unloading").replaceAll("%world%", worldName));
@@ -45,8 +49,8 @@ public class GUnload_cmd implements CommandExecutor {
                                             all.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.teleport_players").replaceAll("%world%", worldName));
                                         }
                                     }
-                                    Bukkit.getWorlds().remove(Bukkit.getWorld(worldName));
                                     Bukkit.unloadWorld(Bukkit.getWorld(worldName), true);
+                                    Bukkit.getWorlds().remove(Bukkit.getWorld(worldName));
                                     Main.loadedWorlds.remove(worldName);
                                     Main.getMapinfos().remove(worldName);
                                     Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
@@ -56,12 +60,32 @@ public class GUnload_cmd implements CommandExecutor {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.failed").replaceAll("%world%", worldName));
                                     ex.printStackTrace();
                                 }
-                            }
+                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.alreadyUnloaded").replaceAll("%world%", worldName));
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.use"));
                 } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.use"));
             }
         }
         return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
+        if ((!cmd.getName().equalsIgnoreCase("gunload")) || (!(sender instanceof Player)) || (args.length == 0) || (!(sender.hasPermission("Gworld.unload"))))
+            return null;
+        List<String> tab = new ArrayList<>();
+
+        if (args.length == 1) {
+            List<String> options = new ArrayList<String>();
+            for (int i = 0; i < Bukkit.getWorlds().size(); i++) {
+                options.add(Bukkit.getWorlds().get(i).getName());
+            }
+            String search = args[0].toLowerCase();
+            for (int i = 0; i < options.size(); i++) {
+                if (options.get(i).toLowerCase().startsWith(search))
+                    tab.add(options.get(i));
+            }
+        }
+        return tab;
     }
 }

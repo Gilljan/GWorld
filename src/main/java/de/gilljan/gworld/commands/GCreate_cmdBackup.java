@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.commands;
@@ -23,8 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-public class GCreate_cmdBackup implements CommandExecutor, TabCompleter {
+public class GCreate_cmdBackup  {
+/*
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gcreate")) {
@@ -145,4 +145,7 @@ public class GCreate_cmdBackup implements CommandExecutor, TabCompleter {
         }
         return tab;
     }
+ */
 }
+
+

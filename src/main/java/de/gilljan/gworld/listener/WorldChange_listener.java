@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.listener;
@@ -15,8 +15,10 @@ public class WorldChange_listener implements Listener {
     @EventHandler
     public void WorldChange(PlayerChangedWorldEvent event) {
         Player p = event.getPlayer();
-        if (Main.getMapinfos().get(p.getWorld().getName()).isForcedGamemode()) {
-            p.setGameMode(GameMode.valueOf(Main.getMapinfos().get(p.getWorld().getName()).getDefaultGamemode().toUpperCase()));
+        if(Main.loadedWorlds.contains(p.getWorld().getName())) {
+            if (Main.getMapinfos().get(p.getWorld().getName()).isForcedGamemode()) {
+                p.setGameMode(GameMode.valueOf(Main.getMapinfos().get(p.getWorld().getName()).getDefaultGamemode().toUpperCase()));
+            }
         }
     }
 

@@ -1,19 +1,23 @@
+#Copyright (c) Gilljan 2020-2021. All rights reserved.
+#Plugin written by Gilljan
 NoPerm: '&cYou do not have the permission for that!'
 SecurityMessage: '&cFor security reasons, a world name may not contains dots (.) or slashes (/).'
+UpdateNotification: '&aThere is a new version of GWorld available: &e%version%&a. Link to the update: &e%link%&a.'
+AutoImport: '&aThe world &e%world% &awas automatically imported from GWorld.'
 Create:
   confirm_player: '&cPlease confirm the command by clicking below or write &econfirm &cdirectly behind the command.'
   confirm_console: '&cPlease confirm the command by typing &econfirm &cafter the command.'
   creating: '&aThe world &e%world% &awill now be created and loaded...'
   success: '&aThe world &e%world% &awas successfully created!'
   failed: '&cThe world &e%world% &ccould not be created!'
-  use: '&cUse: /gcreate <world name> {normal|nether|end|large_biomes|amplified|flat} {seed}'
+  use: '&cUse: /gcreate <world name> {normal|nether|end|large_biomes|amplified|flat} {seed} {world generator}'
 Import:
   confirm_player: '&cPlease confirm the command by clicking below or write &econfirm &cdirectly behind the command.'
   confirm_console: '&cPlease confirm the command by typing &econfirm &cafter the command.'
   creating: '&aThe world &e%world% &awill now be imported and loaded...'
   success: '&aThe world &e%world% &awas successfully imported!'
   failed: '&cThe world &e%world% &ccould not be imported.'
-  use: '&cUse: /gimport <world name> {normal|nether|end|large_biomes|amplified|flat}'
+  use: '&cUse: /gimport <world name> {normal|nether|end|large_biomes|amplified|flat} {world generator}'
 Teleport:
   success: '&aYou have been successfully teleported to the world &e%world%&a.'
   failed: '&cCould not teleport.'
@@ -66,6 +70,7 @@ Info:
   header: '&8---- &eGINFO&8 ----'
   footer: '&8---- &eGINFO&8 ----'
   name: '&6World name &8: '
+  generator: '&6generator: &8 '
   flags:
     type: '&6type &8: '
     timeCycle: '&6timeCycle &8: '
@@ -94,6 +99,7 @@ Unload:
   confirm_console: '&cPlease confirm the command by typing &econfirm &cafter the command.'
   unloading: '&aThe world &e%world% &ais now unloading.'
   success: '&aThe world &e%world% &awas successfully unloaded.'
+  alreadyUnloaded: '&cThe world &e%world% &cis not loaded.'
   failed: '&cThe world &e%world% &ccould not be unloaded.'
   teleport_players: '&cDa die Welt &e%world% &centladen wurde, wurdest du auf die Standard Welt teleportiert!'
   use: '&cUse: /gunload <worldname>'
@@ -102,5 +108,6 @@ Load:
   confirm_console: '&cPlease confirm the command by typing &econfirm &cafter the command.'
   loading: '&aThe world &e%world% &ais now loading.'
   success: '&aThe world &e%world% &awas successfully loaded.'
+  alreadyLoaded: '&cThe world &e%world% &cis already loaded.'
   failed: '&cThe world &e%world% &ccould not be loaded.'
   use: '&cUse: /gload <worldname>'

@@ -1,5 +1,5 @@
 name: GWorld
-version: 1.0.2
+version: 1.1.0
 main: de.gilljan.gworld.Main
 
 author: Gilljan
@@ -40,4 +40,6 @@ permissions:
       gworld.recreate: true
       gworld.unload: true
       gworld.load: true
+      gworld.updatenotification: true
+      gworld.notify: true
 

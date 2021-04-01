@@ -1,19 +1,23 @@
+#Copyright (c) Gilljan 2020-2021. All rights reserved.
+#Plugin written by Gilljan
 NoPerm: '&cDazu hast du keine Rechte!'
 SecurityMessage: '&cAus Sicherheitsgründen darf ein Weltenname keine Punkte (.) oder Schrägstriche (/) enthalten.'
+UpdateNotification: '&aEs ist eine neue Version von GWorld verfügbar: &e%version%&a. Link zum Update: &e%link%&a.'
+AutoImport: '&aDie Welt &e%world% &awurde automatisch von GWorld importiert.'
 Create:
   confirm_player: '&cBitte bestätige den Command durch das Klicken unten oder schreibe direkt &econfirm &chinter den Command.'
   confirm_console: '&cBitte bestätige den Command indem du &econfirm &chinter den Command schreibst.'
   creating: '&aDie Welt &e%world% &awird nun erstellt und geladen...'
   success: '&aDie Welt &e%world% &awurde erfolgreich erstellt!'
   failed: '&cDie Welt &e%world% &ckonnte nicht erstellt werden.'
-  use: '&cBenutze: /gcreate <Weltname> {normal|nether|end|large_biomes|amplified|flat} {seed}'
+  use: '&cBenutze: /gcreate <Weltname> {normal|nether|end|large_biomes|amplified|flat} {seed} {World Generator}'
 Import:
   confirm_player: '&cBitte bestätige den Command durch das Klicken unten oder schreibe direkt &econfirm &chinter den Command'
   confirm_console: '&cBitte bestätige den Command indem du &econfirm &chinter den Command schreibst.'
   creating: '&aDie Welt &e%world% &awird nun importiert und geladen...'
   success: '&aDie Welt &e%world% &awurde erfolgreich importiert!'
   failed: '&cDie Welt &e%world% &ckonnte nicht importiert werden.'
-  use: '&cBenutze: /gimport <Weltname> {normal|nether|end|large_biomes|amplified|flat}'
+  use: '&cBenutze: /gimport <Weltname> {normal|nether|end|large_biomes|amplified|flat} {World Generator}'
 Teleport:
   success: '&aDu wurdest erfolgreich auf die Welt &e%world% &ateleportiert.'
   failed: '&cKonnte nicht Teleportieren.'
@@ -67,6 +71,7 @@ Info:
   header: '&8---- &eGINFO&8 ----'
   footer: '&8---- &eGINFO&8 ----'
   name: '&6Weltname &8: '
+  generator: '&6generator &8: '
   flags:
     type: '&6type &8: '
     timeCycle: '&6timeCycle &8: '
@@ -95,6 +100,7 @@ Unload:
   confirm_console: '&cBitte bestätige den Command indem du &econfirm &chinter den Command schreibst.'
   unloading: '&aDie Welt &e%world% &awird nun entladen.'
   success: '&aDie Welt &e%world% &awurde erfolgreich entladen.'
+  alreadyUnloaded: '&cDie Welt &e%world% &cist nicht geladen.'
   failed: '&cDie Welt &e%world% &ckonnte nicht entladen werden.'
   teleport_players: '&cDa die Welt &e%world% &centladen wurde, wurdest du auf die Standard Welt teleportiert!'
   use: '&cBenutze: /gunload <Weltenname>'
@@ -103,5 +109,6 @@ Load:
   confirm_console: '&cBitte bestätige den Command indem du &econfirm &chinter den Command schreibst.'
   loading: '&aDie Welt &e%world% &awird nun geladen.'
   success: '&aDie Welt &e%world% &awurde erfolgreich geladen.'
+  alreadyLoaded: '&cDie Welt &e%world% &cist bereits geladen.'
   failed: '&cDie Welt &e%world% &ckonnte nicht geladen werden.'
   use: '&cBenutze: /gload <Weltenname>'

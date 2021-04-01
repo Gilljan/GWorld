@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.utils;
@@ -13,6 +13,7 @@ import org.bukkit.entity.*;
 import java.io.IOException;
 
 public class MapInformation {
+    private final String generator;
     private final String type;
     private boolean mobSpawning;
     private boolean animalSpawning;
@@ -25,7 +26,8 @@ public class MapInformation {
     private String defaultGamemode;
     private String difficulty;
 
-    public MapInformation(String type, boolean mobSpawning, boolean animalSpawning, boolean weatherCycle, String defaultWeather, boolean dayNightCycle, long defaultTime, boolean enablePVP, boolean forcedGamemode, String defaultGamemode, String difficulty) {
+    public MapInformation(String generator, String type, boolean mobSpawning, boolean animalSpawning, boolean weatherCycle, String defaultWeather, boolean dayNightCycle, long defaultTime, boolean enablePVP, boolean forcedGamemode, String defaultGamemode, String difficulty) {
+        this.generator = generator;
         this.type = type;
         this.mobSpawning = mobSpawning;
         this.animalSpawning = animalSpawning;
@@ -41,6 +43,10 @@ public class MapInformation {
 
     public String getType() {
         return type;
+    }
+
+    public String getGenerator() {
+        return generator;
     }
 
     public long getDefaultTime() {
@@ -123,9 +129,12 @@ public class MapInformation {
         this.weatherCycle = weatherCycle;
     }
 
-    public static void createMapInfos(String worldName, String type) {
+    public static void createMapInfos(String worldName, String type, String generator) {
         if (Main.getConfigs().get("worlds").get("Worlds." + worldName) == null) {
             Main.getConfigs().get("worlds").set("Worlds." + worldName, null);
+            if(generator == null) {
+                Main.getConfigs().get("worlds").set("Worlds." + worldName + ".generator", "null");
+            } else Main.getConfigs().get("worlds").set("Worlds." + worldName + ".generator", generator);
             Main.getConfigs().get("worlds").set("Worlds." + worldName + ".type", type);
             Main.getConfigs().get("worlds").set("Worlds." + worldName + ".timeCycle", true);
             Main.getConfigs().get("worlds").set("Worlds." + worldName + ".time", 6000);
@@ -144,6 +153,7 @@ public class MapInformation {
             }
         }
         Main.getMapinfos().put(worldName, new MapInformation(
+                Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".generator"),
                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".type"),
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".mobs"),
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".animals"),
@@ -161,6 +171,7 @@ public class MapInformation {
     public static void copyMapInfos(String world, String targetWorld) {
         if (Main.getConfigs().get("worlds").get("Worlds." + targetWorld) == null) {
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld, null);
+            Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".generator", Main.getMapinfos().get(world).getGenerator());
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".type", Main.getMapinfos().get(world).getType());
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".timeCycle", Main.getMapinfos().get(world).isDayNight());
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".time", Main.getMapinfos().get(world).getDefaultTime());
@@ -179,6 +190,7 @@ public class MapInformation {
             }
         }
         Main.getMapinfos().put(targetWorld, new MapInformation(
+                Main.getConfigs().get("worlds").getString("Worlds." + targetWorld + ".generator"),
                 Main.getConfigs().get("worlds").getString("Worlds." + targetWorld + ".type"),
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + targetWorld + ".mobs"),
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + targetWorld + ".animals"),

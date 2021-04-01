@@ -1,13 +1,15 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld;
 
 import de.gilljan.gworld.commands.*;
 import de.gilljan.gworld.listener.AnimalSpawning_listener;
+import de.gilljan.gworld.listener.LoadWorld_listener;
 import de.gilljan.gworld.listener.PlayerJoin_listener;
 import de.gilljan.gworld.listener.WorldChange_listener;
+import de.gilljan.gworld.utils.GeneratorUtil;
 import de.gilljan.gworld.utils.MapInformation;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -26,6 +28,7 @@ public class Main extends JavaPlugin {
 
     private static File worlds;
     private static File config;
+    public static List<String> availableGenerators = new ArrayList<>();
     public static List<String> loadedWorlds = new ArrayList<>();
 
     @Override
@@ -36,10 +39,12 @@ public class Main extends JavaPlugin {
             config = new File(getInstance().getDataFolder().getPath() + "//config.yml");
             loadConfigs();
             loadWorlds();
+            GeneratorUtil.getGenerators();
         } catch (Exception ex) {
             ex.printStackTrace();
             getServer().getPluginManager().disablePlugin(this);
         }
+
     }
 
     @Override
@@ -107,7 +112,7 @@ public class Main extends JavaPlugin {
             pm.registerEvents(new AnimalSpawning_listener(), this);
             pm.registerEvents(new WorldChange_listener(), this);
             pm.registerEvents(new PlayerJoin_listener(), this);
-
+            pm.registerEvents(new LoadWorld_listener(), this);
 
         }
     }
@@ -136,6 +141,7 @@ public class Main extends JavaPlugin {
         for (int i = 0; i < loadedWorlds.size(); i++) {
             if(getConfigs().get("worlds").get("Worlds." + loadedWorlds.get(i)) != null && new File(Bukkit.getWorldContainer(), loadedWorlds.get(i)).exists()) { //neu
                 getMapinfos().put(loadedWorlds.get(i), new MapInformation(
+                        getConfigs().get("worlds").getString("Worlds." + loadedWorlds.get(i) + ".generator"),
                         getConfigs().get("worlds").getString("Worlds." + loadedWorlds.get(i) + ".type"),
                         getConfigs().get("worlds").getBoolean("Worlds." + loadedWorlds.get(i) + ".mobs"),
                         getConfigs().get("worlds").getBoolean("Worlds." + loadedWorlds.get(i) + ".animals"),
@@ -162,6 +168,9 @@ public class Main extends JavaPlugin {
                 } else if (getMapinfos().get(loadedWorlds.get(i)).getType().equalsIgnoreCase("large_biomes")) {
                     w.type(WorldType.LARGE_BIOMES);
                 } else w.type(WorldType.NORMAL);
+                if(!getMapinfos().get(loadedWorlds.get(i)).getGenerator().equalsIgnoreCase("null")) {
+                    w.generator(getMapinfos().get(loadedWorlds.get(i)).getGenerator());
+                }
                 Bukkit.createWorld(w);
                 if (!getMapinfos().get(loadedWorlds.get(i)).isMobSpawning()) {
                     Bukkit.getWorld(loadedWorlds.get(i)).setGameRuleValue("doMobSpawning", "false");
@@ -191,7 +200,7 @@ public class Main extends JavaPlugin {
                 }
                 if (!getMapinfos().get(loadedWorlds.get(i)).isAnimalSpawning()) {
                     for (Entity mobs : Bukkit.getWorld(loadedWorlds.get(i)).getEntities()) {
-                        if (mobs instanceof Animals || mobs instanceof Squid) {
+                        if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat) {
                             mobs.remove();
                         }
                     }

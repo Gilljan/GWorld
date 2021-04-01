@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.commands;
@@ -27,13 +27,14 @@ public class GWReload_cmd implements CommandExecutor {
                         Main.getConfigs().put("worlds", YamlConfiguration.loadConfiguration(Main.getWorlds()));
                         Main.loadedWorlds.clear();
                         for (int i = 0; i < Main.getConfigs().get("worlds").getStringList("LoadWorlds").size(); i++) {
-                            if(Main.getConfigs().get("worlds").get("Worlds." + Main.loadedWorlds.get(i)) != null && new File(Bukkit.getWorldContainer(), Main.loadedWorlds.get(i)).exists())
-                                Main.loadedWorlds.add(Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i));
+                            if(Main.getConfigs().get("worlds").get("Worlds." + Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i)) != null && new File(Bukkit.getWorldContainer(), Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i)).exists())
+                            Main.loadedWorlds.add(Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i));
                         }
 
                         Main.getMapinfos().clear();
                         for (int i = 0; i < Main.loadedWorlds.size(); i++) {
                             Main.getMapinfos().put(Main.loadedWorlds.get(i), new MapInformation(
+                                    Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".generator"),
                                     Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".type"),
                                     Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".mobs"),
                                     Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".animals"),
@@ -60,6 +61,9 @@ public class GWReload_cmd implements CommandExecutor {
                             } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("large_biomes")) {
                                 w.type(WorldType.LARGE_BIOMES);
                             } else w.type(WorldType.NORMAL);
+                            if(!Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator().equalsIgnoreCase("null")) {
+                                w.generator(Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator());
+                            }
                             Bukkit.createWorld(w);
                             if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isMobSpawning()) {
                                 Bukkit.getWorld(Main.loadedWorlds.get(i)).setGameRuleValue("doMobSpawning", "false");

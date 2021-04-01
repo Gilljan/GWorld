@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.commands;
@@ -30,6 +30,7 @@ public class GInfo_cmd implements CommandExecutor, TabCompleter {
                             MapInformation mapInformation = Main.getMapinfos().get(world);
                             sender.sendMessage(SendMessage_util.sendMessage("Info.header"));
                             sender.sendMessage(SendMessage_util.sendMessage("Info.name") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", world));
+                            sender.sendMessage(SendMessage_util.sendMessage("Info.generator") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getGenerator())));
                             sender.sendMessage(SendMessage_util.sendMessage("Info.flags.type") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getType())));
                             if (mapInformation.isDayNight()) {
                                 sender.sendMessage(SendMessage_util.sendMessage("Info.flags.timeCycle") + SendMessage_util.sendMessage("Info.flags.true"));
@@ -68,6 +69,7 @@ public class GInfo_cmd implements CommandExecutor, TabCompleter {
                         MapInformation mapInformation = Main.getMapinfos().get(world);
                         sender.sendMessage(SendMessage_util.sendMessage("Info.header"));
                         sender.sendMessage(SendMessage_util.sendMessage("Info.name") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", world));
+                        sender.sendMessage(SendMessage_util.sendMessage("Info.generator") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getGenerator())));
                         sender.sendMessage(SendMessage_util.sendMessage("Info.flags.type") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getType())));
                         if (mapInformation.isDayNight()) {
                             sender.sendMessage(SendMessage_util.sendMessage("Info.flags.timeCycle") + SendMessage_util.sendMessage("Info.flags.true"));

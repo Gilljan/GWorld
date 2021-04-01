@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.listener;
@@ -19,7 +19,7 @@ public class AnimalSpawning_listener implements Listener {
                 if (!Main.getMapinfos().get(world).isMobSpawning()) {
                     event.setCancelled(true);
                 }
-            } else if (event.getEntity() instanceof Animals || event.getEntity() instanceof Squid) {
+            } else if (event.getEntity() instanceof Animals || event.getEntity() instanceof Squid || event.getEntity() instanceof Bat) {
                 if (!Main.getMapinfos().get(world).isAnimalSpawning()) {
                     event.setCancelled(true);
                 }

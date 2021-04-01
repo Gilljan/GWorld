@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.commands;
@@ -97,6 +97,9 @@ public class GClone_cmd implements CommandExecutor, TabCompleter {
             w.environment(environment);
         } else if (environment == null) {
             w.type(worldType);
+        }
+        if(!Main.getMapinfos().get(targetName).getGenerator().equalsIgnoreCase("null")) {
+            w.generator(Main.getMapinfos().get(targetName).getGenerator());
         }
         Bukkit.createWorld(w);
         Bukkit.getWorlds().add(Bukkit.getWorld(targetName));

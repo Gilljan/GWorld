@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Gilljan 2020. All rights reserved.
+ * Copyright (c) Gilljan 2020-2021. All rights reserved.
  */
 
 package de.gilljan.gworld.commands;
@@ -19,9 +19,11 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+import org.bukkit.generator.ChunkGenerator;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,11 +52,13 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
                     File world = new File(Bukkit.getWorldContainer(), worldName);
                     String keepSaved = args[1];
                     long seed;
+                    ChunkGenerator generator;
                     if (confirmation.equalsIgnoreCase("confirm")) {
                         if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                             if (world.exists()) {
                                 if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                                     seed = Bukkit.getWorld(worldName).getSeed();
+                                    generator = Bukkit.getWorld(worldName).getGenerator();
                                     if (keepSaved.equalsIgnoreCase("false")) {
                                         for (Player all : Bukkit.getOnlinePlayers()) {
                                             if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
@@ -67,18 +71,18 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
                                             FileUtils.deleteDirectory(world);
                                         } catch (IOException e) {
                                             try {
-                                                File dir = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//");
+                                                File dir = new File("old_Maps//");
                                                 if (!dir.exists()) {
                                                     dir.mkdir();
                                                 }
-                                                File target = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//" + worldName + "-" + new Date());
+                                                File target = new File("old_Maps//" + worldName + "-" + new SimpleDateFormat("dd.MM.yyyy - HH-mm-ss").format(new Date()));
                                                 FileUtils.moveDirectory(world, target);
-                                                recreateMap(worldName, seed);
+                                                recreateMap(worldName, seed, generator);
                                             } catch (IOException ex) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.failed"));
                                             }
                                         }
-                                        recreateMap(worldName, seed);
+                                        recreateMap(worldName, seed, generator);
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.success").replaceAll("%world%", worldName));
                                     } else {
                                         for (Player all : Bukkit.getOnlinePlayers()) {
@@ -88,15 +92,15 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
                                             }
                                         }
                                         Bukkit.unloadWorld(worldName, true);
-                                        File dir = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//");
+                                        File dir = new File("old_Maps//");
                                         if (!dir.exists()) {
                                             dir.mkdir();
                                         }
-                                        File target = new File(Bukkit.getWorldContainer().getPath() + "//old_Maps//" + worldName + "-" + new Date());
+                                        File target = new File("old_Maps//" + worldName + "-" + new SimpleDateFormat("dd.MM.yyyy - HH-mm-ss").format(new Date()));
                                         try {
                                             FileUtils.moveDirectory(world, target);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.creating").replaceAll("%world%", worldName));
-                                            recreateMap(worldName, seed);
+                                            recreateMap(worldName, seed, generator);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.success").replaceAll("%world%", worldName));
                                         } catch (Exception e) {
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Recreate.failed").replaceAll("%world%", worldName));
@@ -112,7 +116,7 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
         return false;
     }
 
-    private void recreateMap(String name, long seed) {
+    private void recreateMap(String name, long seed, ChunkGenerator generator) {
         Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
             String type = Main.getMapinfos().get(name).getType();
             WorldCreator worldCreator = WorldCreator.name(name);
@@ -144,6 +148,7 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
                     break;
             }
             worldCreator.seed(seed);
+            worldCreator.generator(generator);
             Bukkit.createWorld(worldCreator);
             MapInformation.setMapValues(name);
         });
