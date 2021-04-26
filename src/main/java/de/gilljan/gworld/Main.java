@@ -11,6 +11,7 @@ import de.gilljan.gworld.listener.PlayerJoin_listener;
 import de.gilljan.gworld.listener.WorldChange_listener;
 import de.gilljan.gworld.utils.GeneratorUtil;
 import de.gilljan.gworld.utils.MapInformation;
+import de.gilljan.gworld.utils.Metrics;
 import org.bukkit.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
@@ -113,6 +114,8 @@ public class Main extends JavaPlugin {
             pm.registerEvents(new WorldChange_listener(), this);
             pm.registerEvents(new PlayerJoin_listener(), this);
             pm.registerEvents(new LoadWorld_listener(), this);
+
+            new Metrics(this, 11160);
 
         }
     }

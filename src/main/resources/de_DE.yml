@@ -22,6 +22,8 @@ Teleport:
   success: '&aDu wurdest erfolgreich auf die Welt &e%world% &ateleportiert.'
   failed: '&cKonnte nicht Teleportieren.'
   failed_console: '&cNur Spieler können diesen Befehl ausführen.'
+  player_target_success: '&aDu wurdest von jemand anderem erfolgreich auf die Welt &e%world% &ateleportiert.' #Variable %player% ist möglich
+  sender_target_success: '&aDu hast den Spieler &e%player% &aerfolgreich auf die Welt &e%world% &ateleportiert.'
   use: '&cBenutze: /gtp <Weltname>'
 Clone:
   confirm_player: '&cBitte bestätige den Command durch das Klicken unten oder schreibe direkt &econfirm &chinter den Command.'
