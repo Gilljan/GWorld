@@ -6,3 +6,20 @@ MainWorld: 'world' #while deleting a world the players which are on the world wi
 
 #Update-Notifications
 UpdateNotification: true
+
+#AutoImporter
+AutoImport: true #deactivate to stop import of maps provided by other systems
+
+#Default world-template
+World:
+  timeCycle: true
+  time: 6000
+  weatherCycle: true
+  weather: sun
+  pvp: true
+  mobs: true
+  animals: true
+  forcedGamemode: false
+  defaultGamemode: SURVIVAL
+  difficulty: NORMAL
+  randomTickSpeed: 3

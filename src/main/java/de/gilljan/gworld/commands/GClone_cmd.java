@@ -26,6 +26,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GClone_cmd implements CommandExecutor, TabCompleter {
+    public static void createWorld(CommandSender sender, String worldName, String targetName, WorldType worldType, World.Environment environment) {
+        MapInformation.copyMapInfos(worldName, targetName);
+        WorldCreator w = WorldCreator.name(targetName);
+        if (worldType == null) {
+            w.environment(environment);
+        } else if (environment == null) {
+            w.type(worldType);
+        }
+        if (!Main.getMapinfos().get(targetName).getGenerator().equalsIgnoreCase("null")) {
+            w.generator(Main.getMapinfos().get(targetName).getGenerator());
+        }
+        Bukkit.createWorld(w);
+        Bukkit.getWorlds().add(Bukkit.getWorld(targetName));
+        Main.loadedWorlds.add(targetName);
+        Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
+        try {
+            Main.getConfigs().get("worlds").save(Main.getWorlds());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        MapInformation.setMapValues(targetName);
+        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.success").replaceAll("%world%", worldName).replaceAll("%targetworld%", targetName));
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gclone")) {
@@ -50,7 +74,7 @@ public class GClone_cmd implements CommandExecutor, TabCompleter {
                     File world = new File(Bukkit.getWorldContainer(), worldName);
                     File target = new File(Bukkit.getWorldContainer(), targetName);
                     if (confirm.equalsIgnoreCase("confirm")) {
-                        if(!worldName.contains(".") & !worldName.contains("/") & !targetName.contains(".") & !targetName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                        if (!worldName.contains(".") & !worldName.contains("/") & !targetName.contains(".") & !targetName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                             if (!worldName.equalsIgnoreCase(targetName)) {
                                 if (world.exists() && !target.exists() && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                                     if (!Main.loadedWorlds.contains(targetName) && !Bukkit.getWorlds().contains(Bukkit.getWorld(targetName))) {
@@ -80,7 +104,8 @@ public class GClone_cmd implements CommandExecutor, TabCompleter {
                                         });
                                     } else
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.failed"));
-                                } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.failed"));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.failed"));
                             } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.failed"));
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.use"));
@@ -88,30 +113,6 @@ public class GClone_cmd implements CommandExecutor, TabCompleter {
             } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("NoPerm"));
         }
         return false;
-    }
-
-    public static void createWorld(CommandSender sender, String worldName, String targetName, WorldType worldType, World.Environment environment) {
-        MapInformation.copyMapInfos(worldName, targetName);
-        WorldCreator w = WorldCreator.name(targetName);
-        if (worldType == null) {
-            w.environment(environment);
-        } else if (environment == null) {
-            w.type(worldType);
-        }
-        if(!Main.getMapinfos().get(targetName).getGenerator().equalsIgnoreCase("null")) {
-            w.generator(Main.getMapinfos().get(targetName).getGenerator());
-        }
-        Bukkit.createWorld(w);
-        Bukkit.getWorlds().add(Bukkit.getWorld(targetName));
-        Main.loadedWorlds.add(targetName);
-        Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
-        try {
-            Main.getConfigs().get("worlds").save(Main.getWorlds());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        MapInformation.setMapValues(targetName);
-        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.success").replaceAll("%world%", worldName).replaceAll("%targetworld%", targetName));
     }
 
     @Override

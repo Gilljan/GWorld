@@ -54,7 +54,7 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
                     long seed;
                     ChunkGenerator generator;
                     if (confirmation.equalsIgnoreCase("confirm")) {
-                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                             if (world.exists()) {
                                 if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                                     seed = Bukkit.getWorld(worldName).getSeed();
@@ -170,8 +170,7 @@ public class GReCreate_cmd implements CommandExecutor, TabCompleter {
                 if (options.get(i).toLowerCase().startsWith(search))
                     tab.add(options.get(i));
             }
-        }
-        else if (args.length == 2) {
+        } else if (args.length == 2) {
             options.add("true");
             options.add("false");
             String search = args[1].toLowerCase();

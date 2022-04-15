@@ -27,8 +27,8 @@ public class GWReload_cmd implements CommandExecutor {
                         Main.getConfigs().put("worlds", YamlConfiguration.loadConfiguration(Main.getWorlds()));
                         Main.loadedWorlds.clear();
                         for (int i = 0; i < Main.getConfigs().get("worlds").getStringList("LoadWorlds").size(); i++) {
-                            if(Main.getConfigs().get("worlds").get("Worlds." + Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i)) != null && new File(Bukkit.getWorldContainer(), Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i)).exists())
-                            Main.loadedWorlds.add(Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i));
+                            if (Main.getConfigs().get("worlds").get("Worlds." + Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i)) != null && new File(Bukkit.getWorldContainer(), Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i)).exists())
+                                Main.loadedWorlds.add(Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i));
                         }
 
                         Main.getMapinfos().clear();
@@ -45,7 +45,8 @@ public class GWReload_cmd implements CommandExecutor {
                                     Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".pvp"),
                                     Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".forcedGamemode"),
                                     Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".defaultGamemode"),
-                                    Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".difficulty")
+                                    Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".difficulty"),
+                                    Main.getConfigs().get("worlds").getInt("Worlds." + Main.loadedWorlds.get(i) + ".randomTickSpeed")
                             ));
                             WorldCreator w = WorldCreator.name(Main.loadedWorlds.get(i));
                             if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("normal")) {
@@ -61,7 +62,7 @@ public class GWReload_cmd implements CommandExecutor {
                             } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("large_biomes")) {
                                 w.type(WorldType.LARGE_BIOMES);
                             } else w.type(WorldType.NORMAL);
-                            if(!Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator().equalsIgnoreCase("null")) {
+                            if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator().equalsIgnoreCase("null")) {
                                 w.generator(Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator());
                             }
                             Bukkit.createWorld(w);

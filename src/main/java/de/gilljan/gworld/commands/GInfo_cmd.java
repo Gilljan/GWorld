@@ -60,6 +60,7 @@ public class GInfo_cmd implements CommandExecutor, TabCompleter {
                                 sender.sendMessage(SendMessage_util.sendMessage("Info.flags.forcedGamemode") + SendMessage_util.sendMessage("Info.flags.false"));
                             sender.sendMessage(SendMessage_util.sendMessage("Info.flags.defaultGamemode") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getDefaultGamemode())));
                             sender.sendMessage(SendMessage_util.sendMessage("Info.flags.difficulty") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getDifficulty())));
+                            sender.sendMessage(SendMessage_util.sendMessage("Info.flags.randomTickSpeed") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getRandomTickSpeed())));
                             sender.sendMessage(SendMessage_util.sendMessage("Info.footer"));
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Info.failed_world"));
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Info.use"));
@@ -99,6 +100,7 @@ public class GInfo_cmd implements CommandExecutor, TabCompleter {
                             sender.sendMessage(SendMessage_util.sendMessage("Info.flags.forcedGamemode") + SendMessage_util.sendMessage("Info.flags.false"));
                         sender.sendMessage(SendMessage_util.sendMessage("Info.flags.defaultGamemode") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getDefaultGamemode())));
                         sender.sendMessage(SendMessage_util.sendMessage("Info.flags.difficulty") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getDifficulty())));
+                        sender.sendMessage(SendMessage_util.sendMessage("Info.flags.randomTickSpeed") + SendMessage_util.sendMessage("Info.flags.values").replaceAll("%value%", String.valueOf(mapInformation.getRandomTickSpeed())));
                         sender.sendMessage(SendMessage_util.sendMessage("Info.footer"));
                     } else
                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Info.failed").replaceAll("%world%", world));

@@ -39,14 +39,14 @@ public class GLoad_cmd implements CommandExecutor, TabCompleter {
                         p.spigot().sendMessage(tc);
                     } else
                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Load.confirm_console"));
-                } else if(args.length == 2) {
+                } else if (args.length == 2) {
                     String worldName = args[0];
-                    if(args[1].equalsIgnoreCase("confirm")) {
-                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
-                            if(!Main.loadedWorlds.contains(worldName) && !Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+                    if (args[1].equalsIgnoreCase("confirm")) {
+                        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                            if (!Main.loadedWorlds.contains(worldName) && !Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                                 try {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Load.loading").replaceAll("%world%", worldName));
-                                    if(Main.getConfigs().get("worlds").get("Worlds." + worldName) != null && new File(Bukkit.getWorldContainer(), worldName).exists()) {
+                                    if (Main.getConfigs().get("worlds").get("Worlds." + worldName) != null && new File(Bukkit.getWorldContainer(), worldName).exists()) {
                                         Main.getMapinfos().put(worldName, new MapInformation(
                                                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".generator"),
                                                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".type"),
@@ -59,7 +59,8 @@ public class GLoad_cmd implements CommandExecutor, TabCompleter {
                                                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".pvp"),
                                                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".forcedGamemode"),
                                                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".defaultGamemode"),
-                                                Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty")
+                                                Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty"),
+                                                Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed")
                                         ));
                                         WorldCreator w = new WorldCreator(worldName);
                                         if (Main.getMapinfos().get(worldName).getType().equalsIgnoreCase("normal")) {
@@ -75,7 +76,7 @@ public class GLoad_cmd implements CommandExecutor, TabCompleter {
                                         } else if (Main.getMapinfos().get(worldName).getType().equalsIgnoreCase("large_biomes")) {
                                             w.type(WorldType.LARGE_BIOMES);
                                         } else w.type(WorldType.NORMAL);
-                                        if(!Main.getMapinfos().get(worldName).getGenerator().equalsIgnoreCase("null")) {
+                                        if (!Main.getMapinfos().get(worldName).getGenerator().equalsIgnoreCase("null")) {
                                             w.generator(Main.getMapinfos().get(worldName).getGenerator());
                                         }
                                         Bukkit.createWorld(w);
@@ -88,13 +89,15 @@ public class GLoad_cmd implements CommandExecutor, TabCompleter {
                                     ex.printStackTrace();
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Load.failed").replaceAll("%world%", worldName));
                                 }
-                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Load.alreadyLoaded").replaceAll("%world%", worldName));
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Load.alreadyLoaded").replaceAll("%world%", worldName));
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Load.use"));
                 } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Load.use"));
             }
         }
         return false;
+
     }
 
     @Override

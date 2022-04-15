@@ -7,7 +7,7 @@ package de.gilljan.gworld.utils;
 import de.gilljan.gworld.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
-import org.bukkit.GameMode;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.*;
 
 import java.io.IOException;
@@ -25,8 +25,9 @@ public class MapInformation {
     private boolean forcedGamemode;
     private String defaultGamemode;
     private String difficulty;
+    private int randomTickSpeed;
 
-    public MapInformation(String generator, String type, boolean mobSpawning, boolean animalSpawning, boolean weatherCycle, String defaultWeather, boolean dayNightCycle, long defaultTime, boolean enablePVP, boolean forcedGamemode, String defaultGamemode, String difficulty) {
+    public MapInformation(String generator, String type, boolean mobSpawning, boolean animalSpawning, boolean weatherCycle, String defaultWeather, boolean dayNightCycle, long defaultTime, boolean enablePVP, boolean forcedGamemode, String defaultGamemode, String difficulty, int randomTickSpeed) {
         this.generator = generator;
         this.type = type;
         this.mobSpawning = mobSpawning;
@@ -39,113 +40,28 @@ public class MapInformation {
         this.forcedGamemode = forcedGamemode;
         this.defaultGamemode = defaultGamemode;
         this.difficulty = difficulty;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getGenerator() {
-        return generator;
-    }
-
-    public long getDefaultTime() {
-        return defaultTime;
-    }
-
-    public String getDefaultGamemode() {
-        return defaultGamemode;
-    }
-
-    public String getDefaultWeather() {
-        return defaultWeather;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public boolean isAnimalSpawning() {
-        return animalSpawning;
-    }
-
-    public boolean isDayNight() {
-        return dayNightCycle;
-    }
-
-    public boolean isEnablePVP() {
-        return enablePVP;
-    }
-
-    public boolean isForcedGamemode() {
-        return forcedGamemode;
-    }
-
-    public boolean isMobSpawning() {
-        return mobSpawning;
-    }
-
-    public boolean isWeatherCycle() {
-        return weatherCycle;
-    }
-
-    public void setAnimalSpawning(boolean animalSpawning) {
-        this.animalSpawning = animalSpawning;
-    }
-
-    public void setDayNight(boolean dayNightCycle) {
-        this.dayNightCycle = dayNightCycle;
-    }
-
-    public void setDefaultGamemode(String defaultGamemode) {
-        this.defaultGamemode = defaultGamemode;
-    }
-
-    public void setDefaultTime(long defaultTime) {
-        this.defaultTime = defaultTime;
-    }
-
-    public void setDefaultWeather(String defaultWeather) {
-        this.defaultWeather = defaultWeather;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
-
-    public void setEnablePVP(boolean enablePVP) {
-        this.enablePVP = enablePVP;
-    }
-
-    public void setForceGamemode(boolean forcedGamemode) {
-        this.forcedGamemode = forcedGamemode;
-    }
-
-    public void setMobSpawning(boolean mobSpawning) {
-        this.mobSpawning = mobSpawning;
-    }
-
-    public void setWeatherCycle(boolean weatherCycle) {
-        this.weatherCycle = weatherCycle;
+        this.randomTickSpeed = randomTickSpeed;
     }
 
     public static void createMapInfos(String worldName, String type, String generator) {
         if (Main.getConfigs().get("worlds").get("Worlds." + worldName) == null) {
+            YamlConfiguration config = Main.getConfigs().get("config");
             Main.getConfigs().get("worlds").set("Worlds." + worldName, null);
-            if(generator == null) {
+            if (generator == null) {
                 Main.getConfigs().get("worlds").set("Worlds." + worldName + ".generator", "null");
             } else Main.getConfigs().get("worlds").set("Worlds." + worldName + ".generator", generator);
             Main.getConfigs().get("worlds").set("Worlds." + worldName + ".type", type);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".timeCycle", true);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".time", 6000);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".weatherCycle", true);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".weather", "sun");
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".pvp", true);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".mobs", true);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".animals", true);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".forcedGamemode", false);
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".defaultGamemode", GameMode.SURVIVAL.toString());
-            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".difficulty", Difficulty.NORMAL.toString());
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".timeCycle", config.getBoolean("World.timeCycle"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".time", config.getLong("World.time"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".weatherCycle", config.getBoolean("World.weatherCycle"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".weather", config.getString("World.weather"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".pvp", config.getBoolean("World.pvp"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".mobs", config.getBoolean("World.mobs"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".animals", config.getBoolean("World.animals"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".forcedGamemode", config.getString("World.forcedGamemode"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".defaultGamemode", config.getString("World.defaultGamemode"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".difficulty", config.getString("World.difficulty"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".randomTickSpeed", config.getInt("World.randomTickSpeed"));
             try {
                 Main.getConfigs().get("worlds").save(Main.getWorlds());
             } catch (IOException ex) {
@@ -164,7 +80,8 @@ public class MapInformation {
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".pvp"),
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".forcedGamemode"),
                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".defaultGamemode"),
-                Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty")
+                Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty"),
+                Main.getConfigs().get("worlds").get("Worlds." + worldName + ".randomTickSpeed") == null ? 3 : Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed")
         ));
     }
 
@@ -183,6 +100,7 @@ public class MapInformation {
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".forcedGamemode", Main.getMapinfos().get(world).isForcedGamemode());
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".defaultGamemode", Main.getMapinfos().get(world).getDefaultGamemode());
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".difficulty", Main.getMapinfos().get(world).getDifficulty());
+            Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".randomTickSpeed", Main.getMapinfos().get(world).getRandomTickSpeed());
             try {
                 Main.getConfigs().get("worlds").save(Main.getWorlds());
             } catch (IOException ex) {
@@ -201,7 +119,8 @@ public class MapInformation {
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + targetWorld + ".pvp"),
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + targetWorld + ".forcedGamemode"),
                 Main.getConfigs().get("worlds").getString("Worlds." + targetWorld + ".defaultGamemode"),
-                Main.getConfigs().get("worlds").getString("Worlds." + targetWorld + ".difficulty")
+                Main.getConfigs().get("worlds").getString("Worlds." + targetWorld + ".difficulty"),
+                Main.getConfigs().get("worlds").getInt("Worlds." + targetWorld + ".randomTickSpeed")
         ));
     }
 
@@ -255,5 +174,102 @@ public class MapInformation {
         } else {
             Bukkit.getWorld(name).setGameRuleValue("doWeatherCycle", "true");
         }
+        Bukkit.getWorld(name).setGameRuleValue("randomTickSpeed", String.valueOf(Main.getMapinfos().get(name).getRandomTickSpeed()));
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getGenerator() {
+        return generator;
+    }
+
+    public long getDefaultTime() {
+        return defaultTime;
+    }
+
+    public void setDefaultTime(long defaultTime) {
+        this.defaultTime = defaultTime;
+    }
+
+    public String getDefaultGamemode() {
+        return defaultGamemode;
+    }
+
+    public void setDefaultGamemode(String defaultGamemode) {
+        this.defaultGamemode = defaultGamemode;
+    }
+
+    public String getDefaultWeather() {
+        return defaultWeather;
+    }
+
+    public void setDefaultWeather(String defaultWeather) {
+        this.defaultWeather = defaultWeather;
+    }
+
+    public int getRandomTickSpeed() {
+        return randomTickSpeed;
+    }
+
+    public void setRandomTickSpeed(int randomTickSpeed) {
+        this.randomTickSpeed = randomTickSpeed;
+    }
+
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public boolean isAnimalSpawning() {
+        return animalSpawning;
+    }
+
+    public void setAnimalSpawning(boolean animalSpawning) {
+        this.animalSpawning = animalSpawning;
+    }
+
+    public boolean isDayNight() {
+        return dayNightCycle;
+    }
+
+    public void setDayNight(boolean dayNightCycle) {
+        this.dayNightCycle = dayNightCycle;
+    }
+
+    public boolean isEnablePVP() {
+        return enablePVP;
+    }
+
+    public void setEnablePVP(boolean enablePVP) {
+        this.enablePVP = enablePVP;
+    }
+
+    public boolean isForcedGamemode() {
+        return forcedGamemode;
+    }
+
+    public boolean isMobSpawning() {
+        return mobSpawning;
+    }
+
+    public void setMobSpawning(boolean mobSpawning) {
+        this.mobSpawning = mobSpawning;
+    }
+
+    public boolean isWeatherCycle() {
+        return weatherCycle;
+    }
+
+    public void setWeatherCycle(boolean weatherCycle) {
+        this.weatherCycle = weatherCycle;
+    }
+
+    public void setForceGamemode(boolean forcedGamemode) {
+        this.forcedGamemode = forcedGamemode;
     }
 }

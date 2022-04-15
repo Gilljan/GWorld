@@ -16,129 +16,8 @@ import org.bukkit.entity.*;
 import javax.annotation.Nullable;
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 
 public interface IGWorldAPI {
-    /**
-     * Create a world (based on a seed)
-     * @param type Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
-     * @param seed The world will be created based on the seed.
-     * @param generator The chunkgenerator. Set null, to use Bukkit Generator
-     */
-    void create(WorldType type, @Nullable Long seed, @Nullable String generator);
-
-    /**
-     * Create a world (based on a seed)
-     * @param type Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
-     */
-    void create(WorldType type);
-
-    /**
-     * Import an existing world
-     * @param type Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
-     * @param generator The chunkgenerator. Set null, to use Bukkit Generator
-     */
-    void importExisting(WorldType type, @Nullable String generator);
-
-    /**
-     * Import an existing world
-     * @param type Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
-     */
-    void importExisting(WorldType type);
-
-    /**
-     * Clone a world based on an existing world
-     * @param newWorld The name of the cloned world.
-     */
-    GWorldAPI clone(String newWorld); // gibt die geklonte welt zurück
-
-    /**
-     * Delete and unload a world
-     */
-    void delete();
-
-    /**
-     * Load an existing world.
-     */
-    void load();
-
-    /**
-     * Unload an existing world.
-     */
-    void unload();
-
-    /**Recreate a world based on an existing world.
-     * @param saveOldWorld Decide, if the should be deleted or not: true (save), false (delete)
-     **/
-    void reCreate(boolean saveOldWorld);
-
-    /**
-     * @return true, when the world is loaded.
-     */
-    boolean isLoaded();
-
-    /**
-     * @return true, when the world is imported.
-     */
-    boolean isImported();
-
-    /**
-     * @param autoLoad Decide, whether the world will be loaded or not while startup.
-     */
-    void setAutoLoad(boolean autoLoad);
-
-    /**
-     * @return true, when the world will be loaded at startup.
-     */
-    boolean isAutoLoad();
-
-    /**
-     * @return the name of the world.
-     */
-    String getName();
-
-    /**
-     * @return the seed of the world.
-     */
-    long getSeed();
-
-    /**
-     * @return the generator of the world.
-     */
-    String getGenerator();
-
-    /**
-     * @return the type of the world.
-     */
-    WorldType getType();
-
-    /**Get the Bukkit-World*/
-    World getBukkitWorld();
-
-    void setPvp(boolean enablePvp);
-    void setMobSpawning(boolean enableMobSpawning);
-    void setAnimalSpawning(boolean enableAnimalSpawning);
-    void setWeatherCycle(boolean enableWeatherCycle);
-    void setForceGameMode(boolean enableForceGameMode);
-    void setDayNightCycle(boolean enableDayNightCycle);
-
-    void setDefaultWeather(WeatherType weatherType);
-    void setDefaultTime(long defaultTime);
-    void setDefaultGameMode(Gamemode gameMode);
-    void setDifficulty(Difficulty difficulty);
-
-    boolean isPvp();
-    boolean isMobSpawning();
-    boolean isAnimalSpawning();
-    boolean isWeatherCycle();
-    boolean isForceGameMode();
-    boolean isDayNightCycle();
-
-    WeatherType getDefaultWeather();
-    long getDefaultTime();
-    Gamemode getDefaultGameMode();
-    Difficulty getDifficulty();
-
     /**
      * @return All found generators by GWorld.
      */
@@ -155,7 +34,7 @@ public interface IGWorldAPI {
             Main.getConfigs().put("worlds", YamlConfiguration.loadConfiguration(Main.getWorlds()));
             Main.loadedWorlds.clear();
             for (int i = 0; i < Main.getConfigs().get("worlds").getStringList("LoadWorlds").size(); i++) {
-                if(Main.getConfigs().get("worlds").get("Worlds." + Main.loadedWorlds.get(i)) != null && new File(Bukkit.getWorldContainer(), Main.loadedWorlds.get(i)).exists())
+                if (Main.getConfigs().get("worlds").get("Worlds." + Main.loadedWorlds.get(i)) != null && new File(Bukkit.getWorldContainer(), Main.loadedWorlds.get(i)).exists())
                     Main.loadedWorlds.add(Main.getConfigs().get("worlds").getStringList("LoadWorlds").get(i));
             }
             Main.getMapinfos().clear();
@@ -172,7 +51,8 @@ public interface IGWorldAPI {
                         Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".pvp"),
                         Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".forcedGamemode"),
                         Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".defaultGamemode"),
-                        Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".difficulty")
+                        Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".difficulty"),
+                        Main.getConfigs().get("worlds").getInt("Worlds." + Main.loadedWorlds.get(i) + ".randomTickSpeed")
                 ));
                 WorldCreator w = WorldCreator.name(Main.loadedWorlds.get(i));
                 if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("normal")) {
@@ -188,7 +68,7 @@ public interface IGWorldAPI {
                 } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("large_biomes")) {
                     w.type(org.bukkit.WorldType.LARGE_BIOMES);
                 } else w.type(org.bukkit.WorldType.NORMAL);
-                if(!Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator().equalsIgnoreCase("null")) {
+                if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator().equalsIgnoreCase("null")) {
                     w.generator(Main.getMapinfos().get(Main.loadedWorlds.get(i)).getGenerator());
                 }
                 Bukkit.createWorld(w);
@@ -283,6 +163,7 @@ public interface IGWorldAPI {
                         }
                     }
                 }
+                Bukkit.getWorld(Main.loadedWorlds.get(i)).setGameRuleValue("randomTickSpeed", String.valueOf(Main.getMapinfos().get(Main.loadedWorlds.get(i)).getRandomTickSpeed()));
             }
             Main.getConfigs().remove("language");
             Main.getConfigs().remove("config");
@@ -323,15 +204,170 @@ public interface IGWorldAPI {
         }
     }
 
+    /**
+     * Create a world (based on a seed)
+     *
+     * @param type      Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
+     * @param seed      The world will be created based on the seed.
+     * @param generator The chunkgenerator. Set null, to use Bukkit Generator
+     */
+    void create(WorldType type, @Nullable Long seed, @Nullable String generator);
+
+    /**
+     * Create a world (based on a seed)
+     *
+     * @param type Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
+     */
+    void create(WorldType type);
+
+    /**
+     * Import an existing world
+     *
+     * @param type      Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
+     * @param generator The chunkgenerator. Set null, to use Bukkit Generator
+     */
+    void importExisting(WorldType type, @Nullable String generator);
+
+    /**
+     * Import an existing world
+     *
+     * @param type Worldgenertation type: normal, end, amplified, nether, flat, large_biomes
+     */
+    void importExisting(WorldType type);
+
+    /**
+     * Clone a world based on an existing world
+     *
+     * @param newWorld The name of the cloned world.
+     */
+    GWorldAPI clone(String newWorld); // gibt die geklonte welt zurück
+
+    /**
+     * Delete and unload a world
+     */
+    void delete();
+
+    /**
+     * Load an existing world.
+     */
+    void load();
+
+    /**
+     * Unload an existing world.
+     */
+    void unload();
+
+    /**
+     * Recreate a world based on an existing world.
+     *
+     * @param saveOldWorld Decide, if the should be deleted or not: true (save), false (delete)
+     **/
+    void reCreate(boolean saveOldWorld);
+
+    /**
+     * Save the data of the map from GWorld to file.
+     */
+    void save();
+
+    /**
+     * @return true, when the world is loaded.
+     */
+    boolean isLoaded();
+
+    /**
+     * @return true, when the world is imported.
+     */
+    boolean isImported();
+
+    /**
+     * @return true, when the world will be loaded at startup.
+     */
+    boolean isAutoLoad();
+
+    /**
+     * @param autoLoad Decide, whether the world will be loaded or not while startup.
+     */
+    void setAutoLoad(boolean autoLoad);
+
+    /**
+     * @return the name of the world.
+     */
+    String getName();
+
+    /**
+     * @return the seed of the world.
+     */
+    long getSeed();
+
+    /**
+     * @return the generator of the world.
+     */
+    String getGenerator();
+
+    /**
+     * @return the type of the world.
+     */
+    WorldType getType();
+
+    /**
+     * Get the Bukkit-World
+     */
+    World getBukkitWorld();
+
+    boolean isPvp();
+
+    void setPvp(boolean enablePvp);
+
+    boolean isMobSpawning();
+
+    void setMobSpawning(boolean enableMobSpawning);
+
+    boolean isAnimalSpawning();
+
+    void setAnimalSpawning(boolean enableAnimalSpawning);
+
+    boolean isWeatherCycle();
+
+    void setWeatherCycle(boolean enableWeatherCycle);
+
+    boolean isForceGameMode();
+
+    void setForceGameMode(boolean enableForceGameMode);
+
+    boolean isDayNightCycle();
+
+    void setDayNightCycle(boolean enableDayNightCycle);
+
+    int getRandomTickSpeed();
+
+    void setRandomTickSpeed(int randomTickSpeed);
+
+    WeatherType getDefaultWeather();
+
+    void setDefaultWeather(WeatherType weatherType);
+
+    long getDefaultTime();
+
+    void setDefaultTime(long defaultTime);
+
+    Gamemode getDefaultGameMode();
+
+    void setDefaultGameMode(Gamemode gameMode);
+
+    Difficulty getDifficulty();
+
+    void setDifficulty(Difficulty difficulty);
+
     enum WorldType {
-        NORMAL ("normal"),
-        NETHER ("nether"),
-        END ("end"),
-        LARGE_BIOMES ("large_biomes"),
-        AMPLIFIED ("amplified"),
-        FLAT ("flat");
+        NORMAL("normal"),
+        NETHER("nether"),
+        END("end"),
+        LARGE_BIOMES("large_biomes"),
+        AMPLIFIED("amplified"),
+        FLAT("flat");
 
         private final String type;
+
         WorldType(String type) {
             this.type = type;
         }
@@ -342,11 +378,12 @@ public interface IGWorldAPI {
     }
 
     enum WeatherType {
-        SUN ("sun"),
-        STORM ("storm"),
-        RAIN ("rain");
+        SUN("sun"),
+        STORM("storm"),
+        RAIN("rain");
 
         private final String weatherType;
+
         WeatherType(String weatherType) {
             this.weatherType = weatherType;
         }
@@ -357,28 +394,22 @@ public interface IGWorldAPI {
     }
 
     enum Gamemode {
-        CREATIVE ("creative", GameMode.CREATIVE),
-        SURVIVAL ("survival", GameMode.SURVIVAL),
-        ADVENTURE ("adventure", GameMode.ADVENTURE),
-        SPECTATOR ("spectator", GameMode.SPECTATOR);
+        CREATIVE("creative", GameMode.CREATIVE),
+        SURVIVAL("survival", GameMode.SURVIVAL),
+        ADVENTURE("adventure", GameMode.ADVENTURE),
+        SPECTATOR("spectator", GameMode.SPECTATOR);
 
         private final String gamemode;
         private final GameMode gameMode;
+
         Gamemode(String gamemode, GameMode gameMode) {
             this.gamemode = gamemode;
             this.gameMode = gameMode;
         }
 
-        public String getGamemode() {
-            return gamemode;
-        }
-
-        public GameMode getGameMode() {
-            return gameMode;
-        }
-
         /**
          * Get the GWorld Gamemode by a Bukkit-Gamemode
+         *
          * @param gameMode org.Bukkit.GameMode
          * @return GWorld-Gamemode
          */
@@ -396,16 +427,25 @@ public interface IGWorldAPI {
             return null;
         }
 
+        public String getGamemode() {
+            return gamemode;
+        }
+
+        public GameMode getGameMode() {
+            return gameMode;
+        }
+
     }
 
     enum Difficulty {
-        EASY ("easy", org.bukkit.Difficulty.EASY),
-        PEACEFUL ("peaceful", org.bukkit.Difficulty.PEACEFUL),
-        NORMAL ("normal", org.bukkit.Difficulty.NORMAL),
-        HARD ("hard", org.bukkit.Difficulty.HARD);
+        EASY("easy", org.bukkit.Difficulty.EASY),
+        PEACEFUL("peaceful", org.bukkit.Difficulty.PEACEFUL),
+        NORMAL("normal", org.bukkit.Difficulty.NORMAL),
+        HARD("hard", org.bukkit.Difficulty.HARD);
 
         private final String difficulty;
         private final org.bukkit.Difficulty difficultMode;
+
         Difficulty(String difficulty, org.bukkit.Difficulty difficultMode) {
             this.difficulty = difficulty;
             this.difficultMode = difficultMode;

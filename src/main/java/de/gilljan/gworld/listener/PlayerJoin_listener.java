@@ -23,7 +23,7 @@ public class PlayerJoin_listener implements Listener {
     @EventHandler
     public void onPlayerConnect(PlayerJoinEvent event) {
         Player p = event.getPlayer();
-        if(Main.loadedWorlds.contains(p.getWorld().getName())) {
+        if (Main.loadedWorlds.contains(p.getWorld().getName())) {
             MapInformation mapInformation = Main.getMapinfos().get(p.getWorld().getName());
             if (mapInformation.isForcedGamemode())
                 p.setGameMode(GameMode.valueOf(mapInformation.getDefaultGamemode()));
@@ -31,9 +31,9 @@ public class PlayerJoin_listener implements Listener {
 
 
         //UpdateNotification
-        if(event.getPlayer().hasPermission("GWorld.updateNotification")) {
-            if(Main.getConfigs().get("config").getBoolean("UpdateNotification")) {
-                Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () ->{
+        if (event.getPlayer().hasPermission("GWorld.updateNotification")) {
+            if (Main.getConfigs().get("config").getBoolean("UpdateNotification")) {
+                Bukkit.getScheduler().runTaskAsynchronously(Main.getInstance(), () -> {
                     try {
                         HttpURLConnection connection = (HttpURLConnection) new URL("https://gilljan.de/versions/GWorld/index.html").openConnection();
                         InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
@@ -47,11 +47,11 @@ public class PlayerJoin_listener implements Listener {
                         int pOne = Integer.parseInt(pVersions[0]);
                         int pTwo = Integer.parseInt(pVersions[1]);
                         int pThree = Integer.parseInt(pVersions[2]);
-                        if(one > pOne) {
+                        if (one > pOne) {
                             event.getPlayer().sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("UpdateNotification").replaceAll("%version%", version).replaceAll("%link%", "https://gworld.gilljan.de"));
-                        } else if(two > pTwo && one == pOne) {
+                        } else if (two > pTwo && one == pOne) {
                             event.getPlayer().sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("UpdateNotification").replaceAll("%version%", version).replaceAll("%link%", "https://gworld.gilljan.de"));
-                        } else if(three > pThree && one == pOne && two == pTwo) {
+                        } else if (three > pThree && one == pOne && two == pTwo) {
                             event.getPlayer().sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("UpdateNotification").replaceAll("%version%", version).replaceAll("%link%", "https://gworld.gilljan.de"));
                         }
                         connection.disconnect();

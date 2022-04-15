@@ -9,8 +9,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
 
-import java.util.List;
-
 public class GeneratorUtil {
     public static void getGenerators() {
         for (Plugin plugin : Bukkit.getPluginManager().getPlugins()) {

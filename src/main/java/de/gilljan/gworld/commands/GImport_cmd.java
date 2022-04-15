@@ -25,6 +25,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GImport_cmd implements CommandExecutor, TabCompleter {
+    public static void createWorld(CommandSender sender, String worldName, String type, WorldType worldType, World.Environment environment, String generator) {
+        MapInformation.createMapInfos(worldName, type, generator);
+        WorldCreator w = WorldCreator.name(worldName);
+        if (worldType == null) {
+            w.environment(environment);
+        } else if (environment == null) {
+            w.type(worldType);
+        }
+        if (generator != null) {
+            w.generator(generator);
+        }
+        File target = new File(Bukkit.getWorldContainer(), worldName);
+        try {
+            new File(target, "uid.dat").delete();
+        } catch (Exception ex) {
+
+        }
+        Main.loadedWorlds.add(worldName);
+        Bukkit.createWorld(w);
+        Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
+        Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
+        try {
+            Main.getConfigs().get("worlds").save(Main.getWorlds());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.success").replaceAll("%world%", worldName));
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gimport")) {
@@ -47,7 +76,7 @@ public class GImport_cmd implements CommandExecutor, TabCompleter {
                     String value = args[2];
                     File file = new File(Bukkit.getWorldContainer(), worldName);
                     if (value.equalsIgnoreCase("confirm")) {
-                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                             if (file.exists()) {
                                 if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !Main.loadedWorlds.contains(worldName)) {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.creating").replaceAll("%world%", worldName));
@@ -100,19 +129,19 @@ public class GImport_cmd implements CommandExecutor, TabCompleter {
                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.confirm_player"));
                             TextComponent tc = new TextComponent();
                             tc.setText("§a[Confirm]");
-                            tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gimport " + worldName + " " + type + " " + value +  " confirm"));
+                            tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gimport " + worldName + " " + type + " " + value + " confirm"));
                             p.spigot().sendMessage(tc);
                         } else
                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.confirm_console"));
                     }
-                } else if(args.length == 4) {
+                } else if (args.length == 4) {
                     String worldName = args[0];
                     String type = args[1];
                     String value = args[2];
                     String confirm = args[3];
                     File file = new File(Bukkit.getWorldContainer(), worldName);
                     if (confirm.equalsIgnoreCase("confirm")) {
-                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                             if (file.exists()) {
                                 if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !Main.loadedWorlds.contains(worldName)) {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.creating").replaceAll("%world%", worldName));
@@ -164,35 +193,6 @@ public class GImport_cmd implements CommandExecutor, TabCompleter {
             } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("NoPerm"));
         }
         return false;
-    }
-
-    public static void createWorld(CommandSender sender, String worldName, String type, WorldType worldType, World.Environment environment, String generator) {
-        MapInformation.createMapInfos(worldName, type, generator);
-        WorldCreator w = WorldCreator.name(worldName);
-        if (worldType == null) {
-            w.environment(environment);
-        } else if (environment == null) {
-            w.type(worldType);
-        }
-        if(generator != null) {
-            w.generator(generator);
-        }
-        File target = new File(Bukkit.getWorldContainer(), worldName);
-        try {
-            new File(target, "uid.dat").delete();
-        } catch (Exception ex) {
-
-        }
-        Main.loadedWorlds.add(worldName);
-        Bukkit.createWorld(w);
-        Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
-        Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
-        try {
-            Main.getConfigs().get("worlds").save(Main.getWorlds());
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Import.success").replaceAll("%world%", worldName));
     }
 
     @Override

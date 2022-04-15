@@ -22,9 +22,9 @@ public class GUnload_cmd implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if(cmd.getName().equalsIgnoreCase("gunload")) {
-            if(sender.hasPermission("Gworld.unload")) {
-                if(args.length == 1) {
+        if (cmd.getName().equalsIgnoreCase("gunload")) {
+            if (sender.hasPermission("Gworld.unload")) {
+                if (args.length == 1) {
                     String worldName = args[0];
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
@@ -35,12 +35,12 @@ public class GUnload_cmd implements CommandExecutor, TabCompleter {
                         p.spigot().sendMessage(tc);
                     } else
                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.confirm_console"));
-                } else if(args.length == 2) {
+                } else if (args.length == 2) {
                     String worldName = args[0];
                     String confirm = args[1];
-                    if(confirm.equalsIgnoreCase("confirm")) {
-                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
-                            if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+                    if (confirm.equalsIgnoreCase("confirm")) {
+                        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                            if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                                 try {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.unloading").replaceAll("%world%", worldName));
                                     for (Player all : Bukkit.getOnlinePlayers()) {
@@ -60,7 +60,8 @@ public class GUnload_cmd implements CommandExecutor, TabCompleter {
                                     sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.failed").replaceAll("%world%", worldName));
                                     ex.printStackTrace();
                                 }
-                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.alreadyUnloaded").replaceAll("%world%", worldName));
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.alreadyUnloaded").replaceAll("%world%", worldName));
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.use"));
                 } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Unload.use"));

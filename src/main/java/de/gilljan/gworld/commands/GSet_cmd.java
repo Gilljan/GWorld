@@ -133,8 +133,36 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                 mapInformation.setMobSpawning(false);
                                 Bukkit.getWorld(world).setGameRuleValue("doMobSpawning", "false");
                                 for (Entity mobs : Bukkit.getWorld(world).getEntities()) {
-                                    if (mobs instanceof Monster || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Ghast)
-                                        mobs.remove();
+                                    switch (Main.getServerversion()) {
+                                        case 8:
+                                        case 9:
+                                        case 10:
+                                        case 11:
+                                            if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof EnderDragon) {
+                                                if (!Main.getMapinfos().get(world).isMobSpawning()) {
+                                                    mobs.remove();
+                                                }
+                                            }
+                                            break;
+                                        case 12:
+                                        case 13:
+                                        case 14:
+                                        case 15:
+                                        case 16:
+                                        case 17:
+                                        case 18:
+                                            if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
+                                                if (!Main.getMapinfos().get(world).isMobSpawning()) {
+                                                    mobs.remove();
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                            sender.sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                            return false;
+                                    }
+
                                 }
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.success").replaceAll("%world%", world));
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.mobs")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.false")));
@@ -148,9 +176,44 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                             } else if (value.equalsIgnoreCase("false")) {
                                 mapInformation.setAnimalSpawning(false);
                                 for (Entity mobs : Bukkit.getWorld(world).getEntities()) {
-                                    if (mobs instanceof Animals || mobs instanceof Squid) {
-                                        mobs.remove();
+                                    switch (Main.getServerversion()) {
+                                        case 8:
+                                        case 9:
+                                        case 10:
+                                        case 11:
+                                        case 12:
+                                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Villager) {
+                                                if (!Main.getMapinfos().get(world).isAnimalSpawning()) {
+                                                    mobs.remove();
+                                                }
+                                            }
+                                            break;
+                                        case 13:
+                                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                                    || mobs instanceof Dolphin || mobs instanceof Villager) {
+                                                if (!Main.getMapinfos().get(world).isAnimalSpawning()) {
+                                                    mobs.remove();
+                                                }
+                                            }
+                                            break;
+                                        case 14:
+                                        case 15:
+                                        case 16:
+                                        case 17:
+                                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                                    || mobs instanceof Dolphin || mobs instanceof Villager
+                                                    || mobs instanceof WanderingTrader) {
+                                                if (!Main.getMapinfos().get(world).isAnimalSpawning()) {
+                                                    mobs.remove();
+                                                }
+                                            }
+                                            break;
+                                        default:
+                                            Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                            sender.sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                            return false;
                                     }
+
                                 }
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.success").replaceAll("%world%", world));
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.animals")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.false")));
@@ -263,6 +326,16 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.success").replaceAll("%world%", world));
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.difficulty")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.values") + "hard"));
                             } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.use"));
+                        } else if (type.equalsIgnoreCase("randomtickspeed")) {
+                            try {
+                                int rTS = Integer.parseInt(value);
+                                mapInformation.setRandomTickSpeed(rTS);
+                                Bukkit.getWorld(world).setGameRuleValue("randomTickSpeed", String.valueOf(rTS));
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.success").replaceAll("%world%", world));
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.randomTickSpeed")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.values") + rTS));
+                            } catch (NumberFormatException ex) {
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.failed").replaceAll("%world%", world));
+                            }
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.use"));
 
                         {
@@ -276,6 +349,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                             Main.getConfigs().get("worlds").set("Worlds." + world + ".forcedGamemode", mapInformation.isForcedGamemode());
                             Main.getConfigs().get("worlds").set("Worlds." + world + ".defaultGamemode", mapInformation.getDefaultGamemode());
                             Main.getConfigs().get("worlds").set("Worlds." + world + ".difficulty", mapInformation.getDifficulty());
+                            Main.getConfigs().get("worlds").set("Worlds." + world + ".randomTickSpeed", mapInformation.getRandomTickSpeed());
                             try {
                                 Main.getConfigs().get("worlds").save(Main.getWorlds());
                             } catch (IOException ex) {
@@ -317,6 +391,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
             options.add("forcedGamemode");
             options.add("defaultGamemode");
             options.add("difficulty");
+            options.add("randomTickSpeed");
 
             String search = args[1].toLowerCase();
             for (int i = 0; i < options.size(); i++) {

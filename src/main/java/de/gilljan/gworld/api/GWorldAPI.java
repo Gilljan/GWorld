@@ -12,10 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
-import org.bukkit.entity.Animals;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Squid;
+import org.bukkit.entity.*;
 import org.bukkit.generator.ChunkGenerator;
 import org.bukkit.plugin.Plugin;
 
@@ -25,12 +22,14 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 public class GWorldAPI implements IGWorldAPI {
     private String worldName;
 
-    /** @param worldName The name of the world */
+    /**
+     * @param worldName The name of the world
+     */
     public GWorldAPI(String worldName) {
         this.worldName = worldName;
     }
@@ -44,7 +43,7 @@ public class GWorldAPI implements IGWorldAPI {
      */
     @Override
     public void create(WorldType type, @Nullable Long seed, @Nullable String generator) {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (!Main.loadedWorlds.contains(worldName) && !Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !new File(Bukkit.getWorldContainer(), worldName).exists()) {
                 if (seed != null) {
                     createWorld(worldName, type, null, generator);
@@ -57,7 +56,7 @@ public class GWorldAPI implements IGWorldAPI {
 
     @Override
     public void create(WorldType type) {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (!Main.loadedWorlds.contains(worldName) && !Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !new File(Bukkit.getWorldContainer(), worldName).exists()) {
                 createWorld(worldName, type, null, null);
             }
@@ -72,7 +71,7 @@ public class GWorldAPI implements IGWorldAPI {
      */
     @Override
     public void importExisting(WorldType type, @Nullable String generator) {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (!Main.loadedWorlds.contains(worldName) && new File(Bukkit.getWorldContainer(), worldName).exists()) {
                 createWorld(worldName, type, null, generator);
             }
@@ -81,7 +80,7 @@ public class GWorldAPI implements IGWorldAPI {
 
     @Override
     public void importExisting(WorldType type) {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (!Main.loadedWorlds.contains(worldName) && new File(Bukkit.getWorldContainer(), worldName).exists()) {
                 createWorld(worldName, type, null, null);
             }
@@ -95,7 +94,7 @@ public class GWorldAPI implements IGWorldAPI {
      */
     @Override
     public GWorldAPI clone(String newWorld) {
-        if(!worldName.contains(".") & !worldName.contains("/") & !newWorld.contains(".") & !newWorld.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !newWorld.contains(".") & !newWorld.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (Main.loadedWorlds.contains(worldName) && !Main.loadedWorlds.contains(newWorld) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && !Bukkit.getWorlds().contains(Bukkit.getWorld(newWorld)) && new File(Bukkit.getWorldContainer(), worldName).exists() && !new File(Bukkit.getWorldContainer(), newWorld).exists()) {
                 Bukkit.getWorld(worldName).save();
                 try {
@@ -141,7 +140,7 @@ public class GWorldAPI implements IGWorldAPI {
      */
     @Override
     public void delete() {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && Main.loadedWorlds.contains(worldName) && new File(Bukkit.getWorldContainer(), worldName).exists()) {
                 for (Player all : Bukkit.getOnlinePlayers()) {
                     if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
@@ -171,7 +170,7 @@ public class GWorldAPI implements IGWorldAPI {
      */
     @Override
     public void load() {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (!Main.loadedWorlds.contains(worldName) && !Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && new File(Bukkit.getWorldContainer(), worldName).exists() && Main.getConfigs().get("worlds").get("Worlds." + worldName) != null) {
                 Main.getMapinfos().put(worldName, new MapInformation(
                         Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".generator"),
@@ -185,7 +184,8 @@ public class GWorldAPI implements IGWorldAPI {
                         Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".pvp"),
                         Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".forcedGamemode"),
                         Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".defaultGamemode"),
-                        Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty")
+                        Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty"),
+                        Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed")
                 ));
                 WorldCreator w = new WorldCreator(worldName);
                 if (Main.getMapinfos().get(worldName).getType().equalsIgnoreCase("normal")) {
@@ -201,7 +201,7 @@ public class GWorldAPI implements IGWorldAPI {
                 } else if (Main.getMapinfos().get(worldName).getType().equalsIgnoreCase("large_biomes")) {
                     w.type(org.bukkit.WorldType.LARGE_BIOMES);
                 } else w.type(org.bukkit.WorldType.NORMAL);
-                if(!Main.getMapinfos().get(worldName).getGenerator().equalsIgnoreCase("null")) {
+                if (!Main.getMapinfos().get(worldName).getGenerator().equalsIgnoreCase("null")) {
                     w.generator(Main.getMapinfos().get(worldName).getGenerator());
                 }
                 Bukkit.createWorld(w);
@@ -218,7 +218,7 @@ public class GWorldAPI implements IGWorldAPI {
 
     @Override
     public void unload() {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                 for (Player all : Bukkit.getOnlinePlayers()) {
                     if (Bukkit.getWorld(worldName).getEntities().contains(all)) {
@@ -247,7 +247,7 @@ public class GWorldAPI implements IGWorldAPI {
      **/
     @Override
     public void reCreate(boolean saveOldWorld) {
-        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
             if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
                 long seed = Bukkit.getWorld(worldName).getSeed();
                 ChunkGenerator generator = Bukkit.getWorld(worldName).getGenerator();
@@ -311,6 +311,29 @@ public class GWorldAPI implements IGWorldAPI {
         }
     }
 
+    /**
+     * Save the changes to file.
+     */
+    @Override
+    public void save() {
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".timeCycle", isDayNightCycle());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".time", getDefaultTime());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".weatherCycle", isWeatherCycle());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".weather", getDefaultWeather().getWeatherType());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".pvp", isPvp());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".mobs", isMobSpawning());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".animals", isAnimalSpawning());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".forcedGamemode", isForceGameMode());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".defaultGamemode", getDefaultGameMode().getGamemode());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".difficulty", getDifficulty().getDifficulty());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".randomTickSpeed", getRandomTickSpeed());
+        try {
+            Main.getConfigs().get("worlds").save(Main.getWorlds());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     public boolean isLoaded() {
         return Bukkit.getWorlds().contains(Bukkit.getWorld(worldName));
@@ -322,16 +345,21 @@ public class GWorldAPI implements IGWorldAPI {
     }
 
     @Override
+    public boolean isAutoLoad() {
+        return (Main.getConfigs().get("worlds").getStringList("LoadWorlds").contains(worldName));
+    }
+
+    @Override
     public void setAutoLoad(boolean autoLoad) {
         List<String> tempList = Main.loadedWorlds;
-        if(autoLoad) {
-            if(Main.getConfigs().get("worlds").get("Worlds." + worldName) != null) {
-                if(!tempList.contains(worldName)) {
+        if (autoLoad) {
+            if (Main.getConfigs().get("worlds").get("Worlds." + worldName) != null) {
+                if (!tempList.contains(worldName)) {
                     tempList.add(worldName);
                 }
             }
         } else {
-            if(tempList.contains(worldName)) {
+            if (tempList.contains(worldName)) {
                 tempList.remove(worldName);
             }
         }
@@ -341,11 +369,6 @@ public class GWorldAPI implements IGWorldAPI {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-
-    @Override
-    public boolean isAutoLoad() {
-        return (Main.getConfigs().get("worlds").getStringList("LoadWorlds").contains(worldName));
     }
 
     @Override
@@ -361,15 +384,15 @@ public class GWorldAPI implements IGWorldAPI {
     @Override
     public String getGenerator() {
         String generator = null;
-        for(Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
+        for (Plugin pl : Bukkit.getServer().getPluginManager().getPlugins()) {
             ChunkGenerator plC = pl.getDefaultWorldGenerator("", "");
-            if(plC != null && pl.isEnabled() && Bukkit.getWorld(worldName).getGenerator() != null) {
-                if(plC.getClass().equals(Bukkit.getWorld(worldName).getGenerator().getClass())) {
+            if (plC != null && pl.isEnabled() && Bukkit.getWorld(worldName).getGenerator() != null) {
+                if (plC.getClass().equals(Bukkit.getWorld(worldName).getGenerator().getClass())) {
                     generator = pl.getName();
                 }
             }
         }
-        if(generator != null) {
+        if (generator != null) {
             return generator;
         }
         return "Bukkit";
@@ -402,31 +425,131 @@ public class GWorldAPI implements IGWorldAPI {
         return Bukkit.getWorld(worldName);
     }
 
+    @Override
+    public int getRandomTickSpeed() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+            return Main.getMapinfos().get(worldName).getRandomTickSpeed();
+        }
+        return -1;
+    }
+
+    @Override
+    public void setRandomTickSpeed(int randomTickSpeed) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+            Main.getMapinfos().get(worldName).setRandomTickSpeed(randomTickSpeed);
+            Bukkit.getWorld(worldName).setGameRuleValue("randomTickSpeed", String.valueOf(randomTickSpeed));
+        }
+    }
+
+    @Override
+    public boolean isPvp() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            return Main.getMapinfos().get(worldName).isEnablePVP();
+        return false;
+    }
 
     @Override
     public void setPvp(boolean enablePvp) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Main.getMapinfos().get(worldName).setEnablePVP(enablePvp);
             Bukkit.getWorld(worldName).setPVP(enablePvp);
         }
     }
 
     @Override
+    public boolean isMobSpawning() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            return Main.getMapinfos().get(worldName).isMobSpawning();
+        return false;
+    }
+
+    @Override
     public void setMobSpawning(boolean enableMobSpawning) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Main.getMapinfos().get(worldName).setMobSpawning(enableMobSpawning);
             Bukkit.getWorld(worldName).setGameRuleValue("doMobSpawning", String.valueOf(enableMobSpawning));
+            for (Entity mobs : Bukkit.getWorld(worldName).getEntities()) {
+                switch (Main.getServerversion()) {
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                        if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof EnderDragon) {
+                            if (!Main.getMapinfos().get(worldName).isMobSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                        if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
+                            if (!Main.getMapinfos().get(worldName).isMobSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    default:
+                        Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                        throw new UnsupportedClassVersionError("§4Unsupported Version: §e" + Main.getFullServerversion());
+                }
+            }
         }
     }
 
     @Override
+    public boolean isAnimalSpawning() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            return Main.getMapinfos().get(worldName).isAnimalSpawning();
+        return false;
+    }
+
+    @Override
     public void setAnimalSpawning(boolean enableAnimalSpawning) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Main.getMapinfos().get(worldName).setAnimalSpawning(enableAnimalSpawning);
-            if(!enableAnimalSpawning) {
+            if (!enableAnimalSpawning) {
                 for (Entity mobs : Bukkit.getWorld(worldName).getEntities()) {
-                    if (mobs instanceof Animals || mobs instanceof Squid) {
-                        mobs.remove();
+                    switch (Main.getServerversion()) {
+                        case 8:
+                        case 9:
+                        case 10:
+                        case 11:
+                        case 12:
+                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Villager) {
+                                if (!Main.getMapinfos().get(worldName).isAnimalSpawning()) {
+                                    mobs.remove();
+                                }
+                            }
+                            break;
+                        case 13:
+                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                    || mobs instanceof Dolphin || mobs instanceof Villager) {
+                                if (!Main.getMapinfos().get(worldName).isAnimalSpawning()) {
+                                    mobs.remove();
+                                }
+                            }
+                            break;
+                        case 14:
+                        case 15:
+                        case 16:
+                        case 17:
+                        case 18:
+                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                    || mobs instanceof Dolphin || mobs instanceof Villager
+                                    || mobs instanceof WanderingTrader) {
+                                if (!Main.getMapinfos().get(worldName).isAnimalSpawning()) {
+                                    mobs.remove();
+                                }
+                            }
+                            break;
+                        default:
+                            Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                            throw new UnsupportedClassVersionError("§4Unsupported Version: §e" + Main.getFullServerversion());
                     }
                 }
             }
@@ -434,9 +557,16 @@ public class GWorldAPI implements IGWorldAPI {
     }
 
     @Override
+    public boolean isWeatherCycle() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            return Main.getMapinfos().get(worldName).isWeatherCycle();
+        return false;
+    }
+
+    @Override
     public void setWeatherCycle(boolean enableWeatherCycle) {
         Main.getMapinfos().get(worldName).setWeatherCycle(enableWeatherCycle);
-        if(enableWeatherCycle) {
+        if (enableWeatherCycle) {
             Bukkit.getWorld(worldName).setGameRuleValue("doWeatherCycle", "true");
         } else {
             Bukkit.getWorld(worldName).setGameRuleValue("doWeatherCycle", "false");
@@ -444,10 +574,17 @@ public class GWorldAPI implements IGWorldAPI {
     }
 
     @Override
+    public boolean isForceGameMode() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            return Main.getMapinfos().get(worldName).isForcedGamemode();
+        return false;
+    }
+
+    @Override
     public void setForceGameMode(boolean enableForceGameMode) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Main.getMapinfos().get(worldName).setForceGamemode(enableForceGameMode);
-            if(enableForceGameMode) {
+            if (enableForceGameMode) {
                 for (Player all : Bukkit.getWorld(worldName).getPlayers()) {
                     try {
                         if (Main.getMapinfos().get(worldName).getDefaultGamemode().equalsIgnoreCase("survival")) {
@@ -468,16 +605,37 @@ public class GWorldAPI implements IGWorldAPI {
     }
 
     @Override
+    public boolean isDayNightCycle() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            return Main.getMapinfos().get(worldName).isDayNight();
+        return false;
+    }
+
+    @Override
     public void setDayNightCycle(boolean enableDayNightCycle) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
-            Main.getMapinfos().get(worldName).setWeatherCycle(enableDayNightCycle);
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+            Main.getMapinfos().get(worldName).setDayNight(enableDayNightCycle);
             Bukkit.getWorld(worldName).setGameRuleValue("doDaylightCycle", String.valueOf(enableDayNightCycle));
         }
     }
 
     @Override
+    public WeatherType getDefaultWeather() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            switch (Main.getMapinfos().get(worldName).getDefaultWeather()) {
+                case "sun":
+                    return WeatherType.SUN;
+                case "rain":
+                    return WeatherType.RAIN;
+                case "storm":
+                    return WeatherType.STORM;
+            }
+        return null;
+    }
+
+    @Override
     public void setDefaultWeather(WeatherType weatherType) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Main.getMapinfos().get(worldName).setDefaultWeather(weatherType.getWeatherType());
             if (weatherType == WeatherType.SUN) {
                 if (!Main.getMapinfos().get(worldName).isWeatherCycle()) {
@@ -499,8 +657,15 @@ public class GWorldAPI implements IGWorldAPI {
     }
 
     @Override
+    public long getDefaultTime() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            return Main.getMapinfos().get(worldName).getDefaultTime();
+        return 0L;
+    }
+
+    @Override
     public void setDefaultTime(long defaultTime) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Main.getMapinfos().get(worldName).setDefaultTime(defaultTime);
             if (!Main.getMapinfos().get(worldName).isDayNight())
                 Bukkit.getWorld(worldName).setTime(defaultTime);
@@ -508,8 +673,24 @@ public class GWorldAPI implements IGWorldAPI {
     }
 
     @Override
+    public Gamemode getDefaultGameMode() {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            switch (Main.getMapinfos().get(worldName).getDefaultGamemode().toLowerCase(Locale.ROOT)) {
+                case "creative":
+                    return Gamemode.CREATIVE;
+                case "survival":
+                    return Gamemode.SURVIVAL;
+                case "spectator":
+                    return Gamemode.SPECTATOR;
+                case "adventure":
+                    return Gamemode.ADVENTURE;
+            }
+        return null;
+    }
+
+    @Override
     public void setDefaultGameMode(Gamemode gameMode) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Main.getMapinfos().get(worldName).setDefaultGamemode(gameMode.getGamemode());
             if (Main.getMapinfos().get(worldName).isForcedGamemode()) {
                 for (Player all : Bukkit.getWorld(worldName).getPlayers()) {
@@ -524,96 +705,9 @@ public class GWorldAPI implements IGWorldAPI {
     }
 
     @Override
-    public void setDifficulty(Difficulty difficulty) {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
-            Main.getMapinfos().get(worldName).setDifficulty(difficulty.getDifficulty());
-            Bukkit.getWorld(worldName).setDifficulty(difficulty.getDifficultMode());
-        }
-    }
-
-    @Override
-    public boolean isPvp() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            return Main.getMapinfos().get(worldName).isEnablePVP();
-        return false;
-    }
-
-    @Override
-    public boolean isMobSpawning() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            return Main.getMapinfos().get(worldName).isMobSpawning();
-        return false;
-    }
-
-    @Override
-    public boolean isAnimalSpawning() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            return Main.getMapinfos().get(worldName).isAnimalSpawning();
-        return false;
-    }
-
-    @Override
-    public boolean isWeatherCycle() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            return Main.getMapinfos().get(worldName).isWeatherCycle();
-        return false;
-    }
-
-    @Override
-    public boolean isForceGameMode() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            return Main.getMapinfos().get(worldName).isForcedGamemode();
-        return false;
-    }
-
-    @Override
-    public boolean isDayNightCycle() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            return Main.getMapinfos().get(worldName).isDayNight();
-        return false;
-    }
-
-    @Override
-    public WeatherType getDefaultWeather() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            switch (Main.getMapinfos().get(worldName).getDefaultWeather()) {
-                case "sun":
-                    return WeatherType.SUN;
-                case "rain":
-                    return WeatherType.RAIN;
-                case "storm":
-                    return WeatherType.STORM;
-            }
-        return null;
-    }
-
-    @Override
-    public long getDefaultTime() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            return Main.getMapinfos().get(worldName).getDefaultTime();
-        return 0L;
-    }
-
-    @Override
-    public Gamemode getDefaultGameMode() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            switch (Main.getMapinfos().get(worldName).getDefaultGamemode()) {
-                case "creative":
-                    return Gamemode.CREATIVE;
-                case "survival":
-                    return Gamemode.SURVIVAL;
-                case "spectator":
-                    return Gamemode.SPECTATOR;
-                case "adventure":
-                    return Gamemode.ADVENTURE;
-            }
-        return null;
-    }
-
-    @Override
     public Difficulty getDifficulty() {
-        if(Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
-            switch (Main.getMapinfos().get(worldName).getDifficulty()) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)))
+            switch (Main.getMapinfos().get(worldName).getDifficulty().toLowerCase(Locale.ROOT)) {
                 case "peaceful":
                     return Difficulty.PEACEFUL;
                 case "easy":
@@ -624,6 +718,14 @@ public class GWorldAPI implements IGWorldAPI {
                     return Difficulty.HARD;
             }
         return null;
+    }
+
+    @Override
+    public void setDifficulty(Difficulty difficulty) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+            Main.getMapinfos().get(worldName).setDifficulty(difficulty.getDifficulty());
+            Bukkit.getWorld(worldName).setDifficulty(difficulty.getDifficultMode());
+        }
     }
 
     private void createWorld(String worldName, WorldType type, Long seed, String generator) {
@@ -652,7 +754,7 @@ public class GWorldAPI implements IGWorldAPI {
         if (seed != null) {
             w.seed(seed);
         }
-        if(generator != null) {
+        if (generator != null) {
             w.generator(generator);
         }
         File target = new File(Bukkit.getWorldContainer(), worldName);
@@ -661,7 +763,7 @@ public class GWorldAPI implements IGWorldAPI {
         } catch (Exception ignored) {
         }
         Main.loadedWorlds.add(worldName);
-        if(!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+        if (!Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
             Bukkit.createWorld(w);
             Bukkit.getWorlds().add(Bukkit.getWorld(worldName));
         }

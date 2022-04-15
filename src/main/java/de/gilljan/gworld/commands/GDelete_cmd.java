@@ -41,7 +41,7 @@ public class GDelete_cmd implements CommandExecutor, TabCompleter {
                     String worldName = args[0];
                     String confirm = args[1];
                     if (confirm.equalsIgnoreCase("confirm")) {
-                        if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                        if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                             if (Bukkit.getWorlds().contains(Bukkit.getWorld(worldName)) && Main.loadedWorlds.contains(worldName)) {
                                 for (Player all : Bukkit.getOnlinePlayers()) {
                                     if (Bukkit.getWorld(worldName).getEntities().contains(all)) {

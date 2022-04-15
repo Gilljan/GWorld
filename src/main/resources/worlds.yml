@@ -20,6 +20,7 @@ Worlds:
     forcedGamemode: false
     defaultGamemode: SURVIVAL
     difficulty: NORMAL
+    randomTickSpeed: 3
   world_nether:
     generator: 'null'
     type: nether
@@ -33,6 +34,7 @@ Worlds:
     forcedGamemode: false
     defaultGamemode: SURVIVAL
     difficulty: NORMAL
+    randomTickSpeed: 3
   world_the_end:
     generator: 'null'
     type: end
@@ -46,3 +48,4 @@ Worlds:
     forcedGamemode: false
     defaultGamemode: SURVIVAL
     difficulty: NORMAL
+    randomTickSpeed: 3

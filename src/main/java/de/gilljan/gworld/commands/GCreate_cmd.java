@@ -27,6 +27,18 @@ import java.util.List;
 public class GCreate_cmd implements CommandExecutor, TabCompleter {
     private static Long value1;
 
+    private static void addMapToLists(String worldName) {
+        if (!Main.loadedWorlds.contains(worldName)) {
+            Main.loadedWorlds.add(worldName);
+            Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
+            try {
+                Main.getConfigs().get("worlds").save(Main.getWorlds());
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gcreate")) {
@@ -54,7 +66,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                     }
                     Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                         if (value.equalsIgnoreCase("confirm") && value1 == null) {
-                            if(!worldName.contains(".") & !worldName.contains("/")  & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                            if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                                 if (!world.exists()) {
                                     if (type != null) {
                                         if (type.equalsIgnoreCase("normal")) {
@@ -113,8 +125,10 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
                                     } else
                                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
-                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                         } else if (value1 != null) {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
@@ -123,8 +137,9 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                 tc.setText("§a[Confirm]");
                                 tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gcreate " + worldName + " " + type + " " + value1 + " confirm"));
                                 p.spigot().sendMessage(tc);
-                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
-                        } else if(value1 == null && !value.equalsIgnoreCase("confirm")) {
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
+                        } else if (value1 == null && !value.equalsIgnoreCase("confirm")) {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_player"));
@@ -132,7 +147,8 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                 tc.setText("§a[Confirm]");
                                 tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gcreate " + worldName + " " + type + " " + value + " confirm"));
                                 p.spigot().sendMessage(tc);
-                            } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
                     });
                 } else if (args.length == 4) {
@@ -147,12 +163,11 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                         sender.sendMessage("SET");
                     }
                     final String SVALUE = sValue;
-                    sender.sendMessage(SVALUE);
                     String value2 = args[3];
                     Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                         if (value1 != null && SVALUE == null) {
-                            if(value2.equalsIgnoreCase("confirm")) {
-                                if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                            if (value2.equalsIgnoreCase("confirm")) {
+                                if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                                     if (!world.exists()) {
                                         if (type != null) {
                                             if (type.equalsIgnoreCase("normal")) {
@@ -217,8 +232,10 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
                                         } else
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                    } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
-                                } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
+                                    } else
+                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                             } else {
                                 if (sender instanceof Player) {
                                     Player p = (Player) sender;
@@ -227,11 +244,12 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                     tc.setText("§a[Confirm]");
                                     tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gcreate " + worldName + " " + type + " " + value1 + " confirm"));
                                     p.spigot().sendMessage(tc);
-                                } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
                             }
-                        } else if(value1 == null && SVALUE != null) {
-                            if(value2.equalsIgnoreCase("confirm")) {
-                                if(!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
+                        } else if (value1 == null && SVALUE != null) {
+                            if (value2.equalsIgnoreCase("confirm")) {
+                                if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                                     if (!world.exists()) {
                                         if (type != null) {
                                             if (type.equalsIgnoreCase("normal")) {
@@ -294,9 +312,12 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                        } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
-                                    } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
-                                } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
+                                        } else
+                                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
+                                    } else
+                                        sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("SecurityMessage"));
                             } else {
                                 if (sender instanceof Player) {
                                     Player p = (Player) sender;
@@ -305,13 +326,14 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                     tc.setText("§a[Confirm]");
                                     tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gcreate " + worldName + " " + type + " " + SVALUE + " confirm"));
                                     p.spigot().sendMessage(tc);
-                                } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
                             }
 
                         } else
                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
                     });
-                } else if(args.length == 5) {
+                } else if (args.length == 5) {
                     String worldName = args[0];
                     File world = new File(Bukkit.getWorldContainer(), worldName);
                     String type = args[1];
@@ -324,7 +346,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                     String confirm = args[4];
                     Bukkit.getScheduler().runTask(Main.getInstance(), () -> {
                         if (value1 != null) {
-                            if(confirm.equalsIgnoreCase("confirm")) {
+                            if (confirm.equalsIgnoreCase("confirm")) {
                                 if (!worldName.contains(".") & !worldName.contains("/") & !worldName.equalsIgnoreCase("plugins") & !worldName.equalsIgnoreCase("logs") & !worldName.equalsIgnoreCase("old_maps")) {
                                     if (!world.exists()) {
                                         if (type != null) {
@@ -408,26 +430,16 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                     tc.setText("§a[Confirm]");
                                     tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gcreate " + worldName + " " + type + " " + value1 + " " + SVALUE + " confirm"));
                                     p.spigot().sendMessage(tc);
-                                } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
+                                } else
+                                    sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.confirm_console"));
                             }
-                        } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
+                        } else
+                            sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.failed").replaceAll("%world%", worldName));
                     });
                 } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
             } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("NoPerm"));
         }
         return false;
-    }
-
-    private static void addMapToLists(String worldName) {
-        if (!Main.loadedWorlds.contains(worldName)) {
-            Main.loadedWorlds.add(worldName);
-            Main.getConfigs().get("worlds").set("LoadWorlds", Main.loadedWorlds);
-            try {
-                Main.getConfigs().get("worlds").save(Main.getWorlds());
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
     }
 
     @Override
@@ -450,14 +462,14 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                     tab.add(options.get(i));
             }
         }
-        if(args.length == 4 && !Main.availableGenerators.contains(args[2])) {
+        if (args.length == 4 && !Main.availableGenerators.contains(args[2])) {
             String search = args[3].toLowerCase();
             for (int i = 0; i < Main.availableGenerators.size(); i++) {
                 if (Main.availableGenerators.get(i).toLowerCase().startsWith(search))
                     tab.add(Main.availableGenerators.get(i));
             }
         }
-        if(args.length == 3) {
+        if (args.length == 3) {
             String search = args[2].toLowerCase();
             for (int i = 0; i < Main.availableGenerators.size(); i++) {
                 if (Main.availableGenerators.get(i).toLowerCase().startsWith(search))
