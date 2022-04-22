@@ -149,6 +149,7 @@ public class Main extends JavaPlugin {
             getCommand("grecreate").setExecutor(new GReCreate_cmd());
             getCommand("gunload").setExecutor(new GUnload_cmd());
             getCommand("gload").setExecutor(new GLoad_cmd());
+            getCommand("ghelp").setExecutor(new GHelp_cmd());
 
             PluginManager pm = Bukkit.getPluginManager();
 
@@ -245,7 +246,7 @@ public class Main extends JavaPlugin {
                                 }
                                 break;
                             default:
-                                Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                Bukkit.getServer().getConsoleSender().sendMessage(Main.getPrefix() + "§4Unsupported Version: §e" + Main.getFullServerversion());
                                 break;
                         }
                     }
@@ -304,7 +305,7 @@ public class Main extends JavaPlugin {
                                 }
                                 break;
                             default:
-                                Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                Bukkit.getServer().getConsoleSender().sendMessage(Main.getPrefix() + "§4Unsupported Version: §e" + Main.getFullServerversion());
                                 break;
                         }
                     }

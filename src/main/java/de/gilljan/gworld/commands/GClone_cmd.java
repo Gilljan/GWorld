@@ -54,23 +54,22 @@ public class GClone_cmd implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gclone")) {
             if (sender.hasPermission("Gworld.clone")) {
-                if (args.length == 3) {
+                if (args.length == 2) {
                     String worldName = args[0];
                     String targetName = args[1];
-                    String type = args[2];
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
                         sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.confirm_player"));
                         TextComponent tc = new TextComponent();
                         tc.setText("§a[Confirm]");
-                        tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gclone " + worldName + " " + targetName + " " + type + " confirm"));
+                        tc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/gclone " + worldName + " " + targetName + " confirm"));
                         p.spigot().sendMessage(tc);
                     } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Clone.confirm_console"));
-                } else if (args.length == 4) {
+                } else if (args.length == 3) {
                     String worldName = args[0];
                     String targetName = args[1];
-                    String type = args[2];
-                    String confirm = args[3];
+                    String confirm = args[2];
+                    String type = Main.getMapinfos().get(worldName).getType();
                     File world = new File(Bukkit.getWorldContainer(), worldName);
                     File target = new File(Bukkit.getWorldContainer(), targetName);
                     if (confirm.equalsIgnoreCase("confirm")) {
@@ -86,7 +85,7 @@ public class GClone_cmd implements CommandExecutor, TabCompleter {
                                                 new File(target, "uid.dat").delete();
                                             } catch (IOException ex) {
                                                 ex.printStackTrace();
-                                            } //todo Type aus der Config ziehen
+                                            }
                                             if (type.equalsIgnoreCase("normal")) {
                                                 createWorld(sender, worldName, targetName, WorldType.NORMAL, null);
                                             } else if (type.equalsIgnoreCase("end")) {

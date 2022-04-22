@@ -77,6 +77,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                             MapInformation.createMapInfos(worldName, "normal", null);
                                             addMapToLists(worldName);
                                             Bukkit.createWorld(w);
+                                            MapInformation.setMapValues(worldName);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                         } else if (type.equalsIgnoreCase("end")) {
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -85,6 +86,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                             MapInformation.createMapInfos(worldName, "end", null);
                                             addMapToLists(worldName);
                                             Bukkit.createWorld(w);
+                                            MapInformation.setMapValues(worldName);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                         } else if (type.equalsIgnoreCase("nether")) {
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -93,6 +95,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                             MapInformation.createMapInfos(worldName, "nether", null);
                                             addMapToLists(worldName);
                                             Bukkit.createWorld(w);
+                                            MapInformation.setMapValues(worldName);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                         } else if (type.equalsIgnoreCase("amplified")) {
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -102,6 +105,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                             MapInformation.createMapInfos(worldName, "ampliefied", null);
                                             addMapToLists(worldName);
                                             Bukkit.createWorld(w);
+                                            MapInformation.setMapValues(worldName);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                         } else if (type.equalsIgnoreCase("large_biomes")) {
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -111,6 +115,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                             MapInformation.createMapInfos(worldName, "large_biomes", null);
                                             addMapToLists(worldName);
                                             Bukkit.createWorld(w);
+                                            MapInformation.setMapValues(worldName);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                         } else if (type.equalsIgnoreCase("flat")) {
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -120,6 +125,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                             MapInformation.createMapInfos(worldName, "flat", null);
                                             addMapToLists(worldName);
                                             Bukkit.createWorld(w);
+                                            MapInformation.setMapValues(worldName);
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                         } else
                                             sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
@@ -179,6 +185,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "normal", null);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("end")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -188,6 +195,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "end", null);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("nether")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -197,6 +205,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "nether", null);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("amplified")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -207,6 +216,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "ampliefied", null);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("large_biomes")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -217,6 +227,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "large_biomes", null);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("flat")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -227,6 +238,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "flat", null);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
@@ -261,6 +273,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "normal", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("end")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -270,6 +283,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "end", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("nether")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -279,6 +293,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "nether", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("amplified")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -289,6 +304,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "ampliefied", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("large_biomes")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -299,6 +315,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "large_biomes", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("flat")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -309,6 +326,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "flat", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));
@@ -360,6 +378,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "normal", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("end")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -370,6 +389,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "end", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("nether")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -380,6 +400,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "nether", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("amplified")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -391,6 +412,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "ampliefied", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("large_biomes")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -402,6 +424,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "large_biomes", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else if (type.equalsIgnoreCase("flat")) {
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.creating").replaceAll("%world%", worldName));
@@ -413,6 +436,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
                                                 MapInformation.createMapInfos(worldName, "flat", SVALUE);
                                                 addMapToLists(worldName);
                                                 Bukkit.createWorld(w);
+                                                MapInformation.setMapValues(worldName);
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.success").replaceAll("%world%", worldName));
                                             } else
                                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Create.use"));

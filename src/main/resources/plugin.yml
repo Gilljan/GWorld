@@ -1,5 +1,5 @@
 name: GWorld
-version: 1.2.0
+version: 1.2.1
 main: de.gilljan.gworld.Main
 
 author: Gilljan
@@ -21,6 +21,7 @@ commands:
   grecreate:
   gunload:
   gload:
+  ghelp:
 
 permissions:
   gworld.*:
@@ -43,4 +44,5 @@ permissions:
       gworld.load: true
       gworld.updatenotification: true
       gworld.notify: true
+      gworld.help: true
 

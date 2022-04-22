@@ -25,10 +25,24 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gset")) {
             if (sender.hasPermission("Gworld.set")) {
-                if (args.length == 3) {
-                    String world = args[0];
-                    String type = args[1];
-                    String value = args[2];
+                if (args.length == 2 || args.length == 3) {
+                    String world;
+                    String type;
+                    String value;
+                    if(args.length == 2) {
+                        if(sender instanceof Player) {
+                            world = ((Player) sender).getWorld().getName();
+                            type = args[0];
+                            value = args[1];
+                        } else {
+                            sender.sendMessage(SendMessage_util.sendMessage("Set.use"));
+                            return true;
+                        }
+                    } else {
+                        world = args[0];
+                        type = args[1];
+                        value = args[2];
+                    }
                     if (Bukkit.getWorld(world) != null && Main.loadedWorlds.contains(world)) {
                         MapInformation mapInformation = Main.getMapinfos().get(world);
                         if (type.equalsIgnoreCase("timecycle")) {
@@ -159,7 +173,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                             break;
                                         default:
                                             Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
-                                            sender.sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                            sender.sendMessage(Main.getPrefix() + "§4Unsupported Version: §e" + Main.getFullServerversion());
                                             return false;
                                     }
 
@@ -200,6 +214,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                         case 15:
                                         case 16:
                                         case 17:
+                                        case 18:
                                             if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
                                                     || mobs instanceof Dolphin || mobs instanceof Villager
                                                     || mobs instanceof WanderingTrader) {
@@ -210,7 +225,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                             break;
                                         default:
                                             Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
-                                            sender.sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
+                                            sender.sendMessage(Main.getPrefix() + "§4Unsupported Version: §e" + Main.getFullServerversion());
                                             return false;
                                     }
 
@@ -371,6 +386,20 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
         List<String> tab = new ArrayList<>();
         List<String> options = new ArrayList<String>();
         if (args.length == 1) {
+            if(sender instanceof Player) {
+                options.add("timeCycle");
+                options.add("time");
+                options.add("weatherCycle");
+                options.add("weather");
+                options.add("pvp");
+                options.add("mobs");
+                options.add("animals");
+                options.add("forcedGamemode");
+                options.add("defaultGamemode");
+                options.add("difficulty");
+                options.add("randomTickSpeed");
+            }
+
             for (int i = 0; i < Bukkit.getWorlds().size(); i++) {
                 options.add(Bukkit.getWorlds().get(i).getName());
             }
@@ -381,6 +410,40 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                     tab.add(options.get(i));
             }
         } else if (args.length == 2) {
+            if(sender instanceof Player) {
+                String type = args[0];
+                switch (type) {
+                    case "timeCycle":
+                    case "weatherCycle":
+                    case "pvp":
+                    case "mobs":
+                    case "animals":
+                    case "forcedGamemode":
+                        options.add("true");
+                        options.add("false");
+                        break;
+                    case "difficulty":
+                        options.add("peaceful");
+                        options.add("easy");
+                        options.add("normal");
+                        options.add("hard");
+                        break;
+                    case "defaultGamemode":
+                        options.add("survival");
+                        options.add("creative");
+                        options.add("spectator");
+                        options.add("adventure");
+                        break;
+                    case "weather":
+                        options.add("sun");
+                        options.add("rain");
+                        options.add("storm");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             options.add("timeCycle");
             options.add("time");
             options.add("weatherCycle");
