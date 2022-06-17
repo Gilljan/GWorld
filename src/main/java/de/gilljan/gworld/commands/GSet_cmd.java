@@ -165,6 +165,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                         case 16:
                                         case 17:
                                         case 18:
+                                        case 19:
                                             if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
                                                 if (!Main.getMapinfos().get(world).isMobSpawning()) {
                                                     mobs.remove();
@@ -218,6 +219,15 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                             if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
                                                     || mobs instanceof Dolphin || mobs instanceof Villager
                                                     || mobs instanceof WanderingTrader) {
+                                                if (!Main.getMapinfos().get(world).isAnimalSpawning()) {
+                                                    mobs.remove();
+                                                }
+                                            }
+                                            break;
+                                        case 19:
+                                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                                    || mobs instanceof Dolphin || mobs instanceof Villager
+                                                    || mobs instanceof WanderingTrader || mobs instanceof Allay) {
                                                 if (!Main.getMapinfos().get(world).isAnimalSpawning()) {
                                                     mobs.remove();
                                                 }
@@ -347,10 +357,23 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                 mapInformation.setRandomTickSpeed(rTS);
                                 Bukkit.getWorld(world).setGameRuleValue("randomTickSpeed", String.valueOf(rTS));
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.success").replaceAll("%world%", world));
-                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.randomTickSpeed")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.values") + rTS));
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.announceAdvancements")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.values") + rTS));
                             } catch (NumberFormatException ex) {
                                 sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.failed").replaceAll("%world%", world));
                             }
+                        } else if(type.equalsIgnoreCase("announceAdvancements")) {
+                            if (value.equalsIgnoreCase("true")) {
+                                mapInformation.setAnnounceAdvancements(true);
+                                Bukkit.getWorld(world).setGameRuleValue("announceAdvancements", "true");
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.success").replaceAll("%world%", world));
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.announceAdvancements")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.true")));
+                            } else if (value.equalsIgnoreCase("false")) {
+                                mapInformation.setAnnounceAdvancements(false);
+                                Bukkit.getWorld(world).setGameRuleValue("announceAdvancements", "false");
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.success").replaceAll("%world%", world));
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.changes").replaceAll("%flag%", SendMessage_util.sendMessage("Set.flags.announceAdvancements")).replaceAll("%value%", SendMessage_util.sendMessage("Set.flags.false")));
+                            } else
+                                sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.failed").replaceAll("%world%", world));
                         } else sender.sendMessage(Main.getPrefix() + SendMessage_util.sendMessage("Set.use"));
 
                         {
@@ -365,6 +388,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                             Main.getConfigs().get("worlds").set("Worlds." + world + ".defaultGamemode", mapInformation.getDefaultGamemode());
                             Main.getConfigs().get("worlds").set("Worlds." + world + ".difficulty", mapInformation.getDifficulty());
                             Main.getConfigs().get("worlds").set("Worlds." + world + ".randomTickSpeed", mapInformation.getRandomTickSpeed());
+                            Main.getConfigs().get("worlds").set("Worlds." + world + ".announceAdvancements", mapInformation.isAnnounceAdvancements());
                             try {
                                 Main.getConfigs().get("worlds").save(Main.getWorlds());
                             } catch (IOException ex) {
@@ -387,17 +411,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
         List<String> options = new ArrayList<String>();
         if (args.length == 1) {
             if(sender instanceof Player) {
-                options.add("timeCycle");
-                options.add("time");
-                options.add("weatherCycle");
-                options.add("weather");
-                options.add("pvp");
-                options.add("mobs");
-                options.add("animals");
-                options.add("forcedGamemode");
-                options.add("defaultGamemode");
-                options.add("difficulty");
-                options.add("randomTickSpeed");
+                listFlags(options);
             }
 
             for (int i = 0; i < Bukkit.getWorlds().size(); i++) {
@@ -412,49 +426,10 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
         } else if (args.length == 2) {
             if(sender instanceof Player) {
                 String type = args[0];
-                switch (type) {
-                    case "timeCycle":
-                    case "weatherCycle":
-                    case "pvp":
-                    case "mobs":
-                    case "animals":
-                    case "forcedGamemode":
-                        options.add("true");
-                        options.add("false");
-                        break;
-                    case "difficulty":
-                        options.add("peaceful");
-                        options.add("easy");
-                        options.add("normal");
-                        options.add("hard");
-                        break;
-                    case "defaultGamemode":
-                        options.add("survival");
-                        options.add("creative");
-                        options.add("spectator");
-                        options.add("adventure");
-                        break;
-                    case "weather":
-                        options.add("sun");
-                        options.add("rain");
-                        options.add("storm");
-                        break;
-                    default:
-                        break;
-                }
+                listOptions(options, type);
             }
 
-            options.add("timeCycle");
-            options.add("time");
-            options.add("weatherCycle");
-            options.add("weather");
-            options.add("pvp");
-            options.add("mobs");
-            options.add("animals");
-            options.add("forcedGamemode");
-            options.add("defaultGamemode");
-            options.add("difficulty");
-            options.add("randomTickSpeed");
+            listFlags(options);
 
             String search = args[1].toLowerCase();
             for (int i = 0; i < options.size(); i++) {
@@ -465,36 +440,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
 
 
             String type = args[1];
-            switch (type) {
-                case "timeCycle":
-                case "weatherCycle":
-                case "pvp":
-                case "mobs":
-                case "animals":
-                case "forcedGamemode":
-                    options.add("true");
-                    options.add("false");
-                    break;
-                case "difficulty":
-                    options.add("peaceful");
-                    options.add("easy");
-                    options.add("normal");
-                    options.add("hard");
-                    break;
-                case "defaultGamemode":
-                    options.add("survival");
-                    options.add("creative");
-                    options.add("spectator");
-                    options.add("adventure");
-                    break;
-                case "weather":
-                    options.add("sun");
-                    options.add("rain");
-                    options.add("storm");
-                    break;
-                default:
-                    break;
-            }
+            listOptions(options, type);
 
             String search = args[2].toLowerCase();
             for (int i = 0; i < options.size(); i++) {
@@ -503,5 +449,54 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
             }
         }
         return tab;
+    }
+
+    private void listFlags(List<String> options) {
+        options.add("timeCycle");
+        options.add("time");
+        options.add("weatherCycle");
+        options.add("weather");
+        options.add("pvp");
+        options.add("mobs");
+        options.add("animals");
+        options.add("forcedGamemode");
+        options.add("defaultGamemode");
+        options.add("difficulty");
+        options.add("randomTickSpeed");
+        options.add("announceAdvancements");
+    }
+
+    private void listOptions(List<String> options, String type) {
+        switch (type) {
+            case "timeCycle":
+            case "weatherCycle":
+            case "pvp":
+            case "mobs":
+            case "animals":
+            case "announceAdvancements":
+            case "forcedGamemode":
+                options.add("true");
+                options.add("false");
+                break;
+            case "difficulty":
+                options.add("peaceful");
+                options.add("easy");
+                options.add("normal");
+                options.add("hard");
+                break;
+            case "defaultGamemode":
+                options.add("survival");
+                options.add("creative");
+                options.add("spectator");
+                options.add("adventure");
+                break;
+            case "weather":
+                options.add("sun");
+                options.add("rain");
+                options.add("storm");
+                break;
+            default:
+                break;
+        }
     }
 }

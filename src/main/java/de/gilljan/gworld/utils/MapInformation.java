@@ -27,7 +27,9 @@ public class MapInformation {
     private String difficulty;
     private int randomTickSpeed;
 
-    public MapInformation(String generator, String type, boolean mobSpawning, boolean animalSpawning, boolean weatherCycle, String defaultWeather, boolean dayNightCycle, long defaultTime, boolean enablePVP, boolean forcedGamemode, String defaultGamemode, String difficulty, int randomTickSpeed) {
+    private boolean announceAdvancements;
+
+    public MapInformation(String generator, String type, boolean mobSpawning, boolean animalSpawning, boolean weatherCycle, String defaultWeather, boolean dayNightCycle, long defaultTime, boolean enablePVP, boolean forcedGamemode, String defaultGamemode, String difficulty, int randomTickSpeed, boolean announceAdvancements) {
         this.generator = generator;
         this.type = type;
         this.mobSpawning = mobSpawning;
@@ -41,6 +43,7 @@ public class MapInformation {
         this.defaultGamemode = defaultGamemode;
         this.difficulty = difficulty;
         this.randomTickSpeed = randomTickSpeed;
+        this.announceAdvancements = announceAdvancements;
     }
 
     public static void createMapInfos(String worldName, String type, String generator) {
@@ -62,6 +65,7 @@ public class MapInformation {
             Main.getConfigs().get("worlds").set("Worlds." + worldName + ".defaultGamemode", config.getString("World.defaultGamemode"));
             Main.getConfigs().get("worlds").set("Worlds." + worldName + ".difficulty", config.getString("World.difficulty"));
             Main.getConfigs().get("worlds").set("Worlds." + worldName + ".randomTickSpeed", config.getInt("World.randomTickSpeed"));
+            Main.getConfigs().get("worlds").set("Worlds." + worldName + ".announceAdvancements", config.getBoolean("World.announceAdvancements"));
             try {
                 Main.getConfigs().get("worlds").save(Main.getWorlds());
             } catch (IOException ex) {
@@ -81,7 +85,8 @@ public class MapInformation {
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".forcedGamemode"),
                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".defaultGamemode"),
                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty"),
-                Main.getConfigs().get("worlds").get("Worlds." + worldName + ".randomTickSpeed") == null ? 3 : Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed")
+                Main.getConfigs().get("worlds").get("Worlds." + worldName + ".randomTickSpeed") == null ? 3 : Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed"),
+                Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".announceAdvancements")
         ));
     }
 
@@ -101,6 +106,7 @@ public class MapInformation {
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".defaultGamemode", Main.getMapinfos().get(world).getDefaultGamemode());
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".difficulty", Main.getMapinfos().get(world).getDifficulty());
             Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".randomTickSpeed", Main.getMapinfos().get(world).getRandomTickSpeed());
+            Main.getConfigs().get("worlds").set("Worlds." + targetWorld + ".announceAdvancements", Main.getMapinfos().get(world).isAnnounceAdvancements());
             try {
                 Main.getConfigs().get("worlds").save(Main.getWorlds());
             } catch (IOException ex) {
@@ -120,7 +126,8 @@ public class MapInformation {
                 Main.getConfigs().get("worlds").getBoolean("Worlds." + targetWorld + ".forcedGamemode"),
                 Main.getConfigs().get("worlds").getString("Worlds." + targetWorld + ".defaultGamemode"),
                 Main.getConfigs().get("worlds").getString("Worlds." + targetWorld + ".difficulty"),
-                Main.getConfigs().get("worlds").getInt("Worlds." + targetWorld + ".randomTickSpeed")
+                Main.getConfigs().get("worlds").getInt("Worlds." + targetWorld + ".randomTickSpeed"),
+                Main.getConfigs().get("worlds").getBoolean("Worlds." + targetWorld + ".announceAdvancements")
         ));
     }
 
@@ -128,8 +135,39 @@ public class MapInformation {
         if (!Main.getMapinfos().get(name).isMobSpawning()) {
             Bukkit.getWorld(name).setGameRuleValue("doMobSpawning", "false");
             for (Entity mobs : Bukkit.getWorld(name).getEntities()) {
-                if (mobs instanceof Monster || mobs instanceof Ghast || mobs instanceof Slime || mobs instanceof MagmaCube) {
-                    mobs.remove();
+                switch (Main.getServerversion()) {
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                        if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof EnderDragon) {
+                            if (!Main.getMapinfos().get(name).isMobSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    case 12:
+                    case 13:
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                        if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
+                            if (!Main.getMapinfos().get(name).isMobSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    case 19:
+                        if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
+                            if (!Main.getMapinfos().get(name).isMobSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    default:
+                        Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
                 }
             }
         } else {
@@ -153,8 +191,50 @@ public class MapInformation {
         }
         if (!Main.getMapinfos().get(name).isAnimalSpawning()) {
             for (Entity mobs : Bukkit.getWorld(name).getEntities()) {
-                if (mobs instanceof Animals || mobs instanceof Squid) {
-                    mobs.remove();
+                switch (Main.getServerversion()) {
+                    case 8:
+                    case 9:
+                    case 10:
+                    case 11:
+                    case 12:
+                        if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Villager) {
+                            if (!Main.getMapinfos().get(name).isAnimalSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    case 13:
+                        if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                || mobs instanceof Dolphin || mobs instanceof Villager) {
+                            if (!Main.getMapinfos().get(name).isAnimalSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    case 14:
+                    case 15:
+                    case 16:
+                    case 17:
+                    case 18:
+                        if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                || mobs instanceof Dolphin || mobs instanceof Villager
+                                || mobs instanceof WanderingTrader) {
+                            if (!Main.getMapinfos().get(name).isAnimalSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    case 19:
+                        if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                || mobs instanceof Dolphin || mobs instanceof Villager
+                                || mobs instanceof WanderingTrader) {
+                            if (!Main.getMapinfos().get(name).isAnimalSpawning()) {
+                                mobs.remove();
+                            }
+                        }
+                        break;
+                    default:
+                        Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + Main.getFullServerversion());
                 }
             }
         }
@@ -174,6 +254,7 @@ public class MapInformation {
         } else {
             Bukkit.getWorld(name).setGameRuleValue("doWeatherCycle", "true");
         }
+        Bukkit.getWorld(name).setGameRuleValue("announceAdvancements", String.valueOf(Main.getMapinfos().get(name).isAnnounceAdvancements()));
         Bukkit.getWorld(name).setGameRuleValue("randomTickSpeed", String.valueOf(Main.getMapinfos().get(name).getRandomTickSpeed()));
     }
 
@@ -271,5 +352,13 @@ public class MapInformation {
 
     public void setForceGamemode(boolean forcedGamemode) {
         this.forcedGamemode = forcedGamemode;
+    }
+
+    public boolean isAnnounceAdvancements() {
+        return announceAdvancements;
+    }
+
+    public void setAnnounceAdvancements(boolean announceAdvancements) {
+        this.announceAdvancements = announceAdvancements;
     }
 }

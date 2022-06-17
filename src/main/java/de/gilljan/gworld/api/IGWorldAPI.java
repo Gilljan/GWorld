@@ -52,7 +52,8 @@ public interface IGWorldAPI {
                         Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".forcedGamemode"),
                         Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".defaultGamemode"),
                         Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".difficulty"),
-                        Main.getConfigs().get("worlds").getInt("Worlds." + Main.loadedWorlds.get(i) + ".randomTickSpeed")
+                        Main.getConfigs().get("worlds").getInt("Worlds." + Main.loadedWorlds.get(i) + ".randomTickSpeed"),
+                        Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".announceAdvancements")
                 ));
                 WorldCreator w = WorldCreator.name(Main.loadedWorlds.get(i));
                 if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("normal")) {
@@ -75,8 +76,34 @@ public interface IGWorldAPI {
                 if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isMobSpawning()) {
                     Bukkit.getWorld(Main.loadedWorlds.get(i)).setGameRuleValue("doMobSpawning", "false");
                     for (Entity mobs : Bukkit.getWorld(Main.loadedWorlds.get(i)).getEntities()) {
-                        if (mobs instanceof Monster || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Ghast) {
-                            mobs.remove();
+                        switch (Main.getServerversion()) {
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 11:
+                                if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof EnderDragon) {
+                                    if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isMobSpawning()) {
+                                        mobs.remove();
+                                    }
+                                }
+                                break;
+                            case 12:
+                            case 13:
+                            case 14:
+                            case 15:
+                            case 16:
+                            case 17:
+                            case 18:
+                            case 19:
+                                if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
+                                    if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isMobSpawning()) {
+                                        mobs.remove();
+                                    }
+                                }
+                                break;
+                            default:
+                                Bukkit.getServer().getConsoleSender().sendMessage(Main.getPrefix() + "§4Unsupported Version: §e" + Main.getFullServerversion());
+                                break;
                         }
                     }
                 } else {
@@ -84,8 +111,51 @@ public interface IGWorldAPI {
                 }
                 if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isAnimalSpawning()) {
                     for (Entity mobs : Bukkit.getWorld(Main.loadedWorlds.get(i)).getEntities()) {
-                        if (mobs instanceof Animals || mobs instanceof Squid) {
-                            mobs.remove();
+                        switch (Main.getServerversion()) {
+                            case 8:
+                            case 9:
+                            case 10:
+                            case 11:
+                            case 12:
+                                if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Villager) {
+                                    if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isAnimalSpawning()) {
+                                        mobs.remove();
+                                    }
+                                }
+                                break;
+                            case 13:
+                                if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                        || mobs instanceof Dolphin || mobs instanceof Villager) {
+                                    if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isAnimalSpawning()) {
+                                        mobs.remove();
+                                    }
+                                }
+                                break;
+                            case 14:
+                            case 15:
+                            case 16:
+                            case 17:
+                            case 18:
+                                if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                        || mobs instanceof Dolphin || mobs instanceof Villager
+                                        || mobs instanceof WanderingTrader) {
+                                    if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isAnimalSpawning()) {
+                                        mobs.remove();
+                                    }
+                                }
+                                break;
+                            case 19:
+                                if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                        || mobs instanceof Dolphin || mobs instanceof Villager
+                                        || mobs instanceof WanderingTrader || mobs instanceof Allay) {
+                                    if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isAnimalSpawning()) {
+                                        mobs.remove();
+                                    }
+                                }
+                                break;
+                            default:
+                                Bukkit.getServer().getConsoleSender().sendMessage(Main.getPrefix() + "§4Unsupported Version: §e" + Main.getFullServerversion());
+                                break;
                         }
                     }
                 }
@@ -156,14 +226,8 @@ public interface IGWorldAPI {
                 } else if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getDifficulty().equalsIgnoreCase("hard")) {
                     Bukkit.getWorld(Main.loadedWorlds.get(i)).setDifficulty(org.bukkit.Difficulty.HARD);
                 }
-                if (!Main.getMapinfos().get(Main.loadedWorlds.get(i)).isAnimalSpawning()) {
-                    for (Entity mobs : Bukkit.getWorld(Main.loadedWorlds.get(i)).getEntities()) {
-                        if (mobs instanceof Animals) {
-                            mobs.remove();
-                        }
-                    }
-                }
                 Bukkit.getWorld(Main.loadedWorlds.get(i)).setGameRuleValue("randomTickSpeed", String.valueOf(Main.getMapinfos().get(Main.loadedWorlds.get(i)).getRandomTickSpeed()));
+                Bukkit.getWorld(Main.loadedWorlds.get(i)).setGameRuleValue("announceAdvancements", String.valueOf(Main.getMapinfos().get(Main.loadedWorlds.get(i)).isAnnounceAdvancements()));
             }
             Main.getConfigs().remove("language");
             Main.getConfigs().remove("config");
@@ -341,6 +405,10 @@ public interface IGWorldAPI {
     int getRandomTickSpeed();
 
     void setRandomTickSpeed(int randomTickSpeed);
+
+    boolean isAnnounceAdvancement();
+
+    void setAnnounceAdvancement(boolean announceAdvancement);
 
     WeatherType getDefaultWeather();
 

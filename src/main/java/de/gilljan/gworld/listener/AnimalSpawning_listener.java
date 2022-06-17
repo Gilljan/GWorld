@@ -75,6 +75,19 @@ public class AnimalSpawning_listener implements Listener {
                         }
                     }
                     break;
+                case 19:
+                    if (event.getEntity() instanceof Monster || event.getEntity() instanceof IronGolem || event.getEntity() instanceof Slime || event.getEntity() instanceof MagmaCube || event.getEntity() instanceof Shulker || event.getEntity() instanceof EnderDragon) {
+                        if (!Main.getMapinfos().get(world).isMobSpawning()) {
+                            event.setCancelled(true);
+                        }
+                    } else if (event.getEntity() instanceof Animals || event.getEntity() instanceof Squid || event.getEntity() instanceof Bat || event.getEntity() instanceof Fish
+                            || event.getEntity() instanceof Dolphin || event.getEntity() instanceof Villager
+                            || event.getEntity() instanceof WanderingTrader || event.getEntity() instanceof Allay) {
+                        if (!Main.getMapinfos().get(world).isAnimalSpawning()) {
+                            event.setCancelled(true);
+                        }
+                    }
+                    break;
                 default:
                     Bukkit.getServer().getConsoleSender().sendMessage("§4Unsupported Version: §e" + serverVersion);
                     break;

@@ -131,19 +131,6 @@ public class GClone_cmd implements CommandExecutor, TabCompleter {
                 if (options.get(i).toLowerCase().startsWith(search))
                     tab.add(options.get(i));
             }
-        } else if (args.length == 3) {
-            options.add("normal");
-            options.add("end");
-            options.add("nether");
-            options.add("flat");
-            options.add("amplified");
-            options.add("large_biomes");
-
-            String search = args[2].toLowerCase();
-            for (int i = 0; i < options.size(); i++) {
-                if (options.get(i).toLowerCase().startsWith(search))
-                    tab.add(options.get(i));
-            }
         }
         return tab;
     }

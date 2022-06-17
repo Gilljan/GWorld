@@ -185,7 +185,8 @@ public class GWorldAPI implements IGWorldAPI {
                         Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".forcedGamemode"),
                         Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".defaultGamemode"),
                         Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty"),
-                        Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed")
+                        Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed"),
+                        Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".announceAdvancements")
                 ));
                 WorldCreator w = new WorldCreator(worldName);
                 if (Main.getMapinfos().get(worldName).getType().equalsIgnoreCase("normal")) {
@@ -327,10 +328,24 @@ public class GWorldAPI implements IGWorldAPI {
         Main.getConfigs().get("worlds").set("Worlds." + worldName + ".defaultGamemode", getDefaultGameMode().getGamemode());
         Main.getConfigs().get("worlds").set("Worlds." + worldName + ".difficulty", getDifficulty().getDifficulty());
         Main.getConfigs().get("worlds").set("Worlds." + worldName + ".randomTickSpeed", getRandomTickSpeed());
+        Main.getConfigs().get("worlds").set("Worlds." + worldName + ".announceAdvancements", isAnnounceAdvancement());
         try {
             Main.getConfigs().get("worlds").save(Main.getWorlds());
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean isAnnounceAdvancement() {
+        return Main.getMapinfos().get(worldName).isAnnounceAdvancements();
+    }
+
+    @Override
+    public void setAnnounceAdvancement(boolean announceAdvancement) {
+        if (Main.loadedWorlds.contains(worldName) && Bukkit.getWorlds().contains(Bukkit.getWorld(worldName))) {
+            Main.getMapinfos().get(worldName).setAnnounceAdvancements(announceAdvancement);
+            Bukkit.getWorld(worldName).setGameRuleValue("announceAdvancements", String.valueOf(announceAdvancement));
         }
     }
 
@@ -487,6 +502,7 @@ public class GWorldAPI implements IGWorldAPI {
                     case 16:
                     case 17:
                     case 18:
+                    case 19:
                         if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
                             if (!Main.getMapinfos().get(worldName).isMobSpawning()) {
                                 mobs.remove();
@@ -542,6 +558,15 @@ public class GWorldAPI implements IGWorldAPI {
                             if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
                                     || mobs instanceof Dolphin || mobs instanceof Villager
                                     || mobs instanceof WanderingTrader) {
+                                if (!Main.getMapinfos().get(worldName).isAnimalSpawning()) {
+                                    mobs.remove();
+                                }
+                            }
+                            break;
+                        case 19:
+                            if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                    || mobs instanceof Dolphin || mobs instanceof Villager
+                                    || mobs instanceof WanderingTrader || mobs instanceof Allay) {
                                 if (!Main.getMapinfos().get(worldName).isAnimalSpawning()) {
                                     mobs.remove();
                                 }

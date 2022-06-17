@@ -46,7 +46,8 @@ public class GWReload_cmd implements CommandExecutor {
                                     Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".forcedGamemode"),
                                     Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".defaultGamemode"),
                                     Main.getConfigs().get("worlds").getString("Worlds." + Main.loadedWorlds.get(i) + ".difficulty"),
-                                    Main.getConfigs().get("worlds").getInt("Worlds." + Main.loadedWorlds.get(i) + ".randomTickSpeed")
+                                    Main.getConfigs().get("worlds").getInt("Worlds." + Main.loadedWorlds.get(i) + ".randomTickSpeed"),
+                                    Main.getConfigs().get("worlds").getBoolean("Worlds." + Main.loadedWorlds.get(i) + ".announceAdvancements")
                             ));
                             WorldCreator w = WorldCreator.name(Main.loadedWorlds.get(i));
                             if (Main.getMapinfos().get(Main.loadedWorlds.get(i)).getType().equalsIgnoreCase("normal")) {

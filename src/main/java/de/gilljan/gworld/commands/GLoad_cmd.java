@@ -60,7 +60,8 @@ public class GLoad_cmd implements CommandExecutor, TabCompleter {
                                                 Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".forcedGamemode"),
                                                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".defaultGamemode"),
                                                 Main.getConfigs().get("worlds").getString("Worlds." + worldName + ".difficulty"),
-                                                Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed")
+                                                Main.getConfigs().get("worlds").getInt("Worlds." + worldName + ".randomTickSpeed"),
+                                                Main.getConfigs().get("worlds").getBoolean("Worlds." + worldName + ".announceAdvancements")
                                         ));
                                         WorldCreator w = new WorldCreator(worldName);
                                         if (Main.getMapinfos().get(worldName).getType().equalsIgnoreCase("normal")) {

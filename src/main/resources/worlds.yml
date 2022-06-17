@@ -1,4 +1,4 @@
-#Copyright (c) Gilljan 2020-2021. All rights reserved.
+#Copyright (c) Gilljan 2020-2022. All rights reserved.
 #Plugin written by Gilljan
 LoadWorlds:
   - world
@@ -21,6 +21,7 @@ Worlds:
     defaultGamemode: SURVIVAL
     difficulty: NORMAL
     randomTickSpeed: 3
+    announceAdvancements: true
   world_nether:
     generator: 'null'
     type: nether
@@ -35,6 +36,7 @@ Worlds:
     defaultGamemode: SURVIVAL
     difficulty: NORMAL
     randomTickSpeed: 3
+    announceAdvancements: true
   world_the_end:
     generator: 'null'
     type: end
@@ -49,3 +51,4 @@ Worlds:
     defaultGamemode: SURVIVAL
     difficulty: NORMAL
     randomTickSpeed: 3
+    announceAdvancements: true

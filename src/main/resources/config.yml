@@ -1,4 +1,4 @@
-#Copyright (c) Gilljan 2020-2021. All rights reserved.
+#Copyright (c) Gilljan 2020-2022. All rights reserved.
 #Plugin written by Gilljan
 Prefix: '&eGWorld &8┃ &7' #prefix of the plugin
 Language: 'EN' #avaiable languages: german (de), english (en)
@@ -23,3 +23,4 @@ World:
   defaultGamemode: SURVIVAL
   difficulty: NORMAL
   randomTickSpeed: 3
+  announceAdvancements: true

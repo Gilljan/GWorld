@@ -198,7 +198,8 @@ public class Main extends JavaPlugin {
                         getConfigs().get("worlds").getBoolean("Worlds." + loadedWorlds.get(i) + ".forcedGamemode"),
                         getConfigs().get("worlds").getString("Worlds." + loadedWorlds.get(i) + ".defaultGamemode"),
                         getConfigs().get("worlds").getString("Worlds." + loadedWorlds.get(i) + ".difficulty"),
-                        Main.getConfigs().get("worlds").get("Worlds." + loadedWorlds.get(i) + ".randomTickSpeed") == null ? 3 : Main.getConfigs().get("worlds").getInt("Worlds." + loadedWorlds.get(i) + ".randomTickSpeed")
+                        getConfigs().get("worlds").get("Worlds." + loadedWorlds.get(i) + ".randomTickSpeed") == null ? 3 : Main.getConfigs().get("worlds").getInt("Worlds." + loadedWorlds.get(i) + ".randomTickSpeed"),
+                        getConfigs().get("worlds").getBoolean("Worlds." + loadedWorlds.get(i) + ".announceAdvancements")
                 ));
                 WorldCreator w = WorldCreator.name(loadedWorlds.get(i));
                 if (getMapinfos().get(loadedWorlds.get(i)).getType().equalsIgnoreCase("normal")) {
@@ -239,6 +240,7 @@ public class Main extends JavaPlugin {
                             case 16:
                             case 17:
                             case 18:
+                            case 19:
                                 if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
                                     if (!Main.getMapinfos().get(loadedWorlds.get(i)).isMobSpawning()) {
                                         mobs.remove();
@@ -304,6 +306,15 @@ public class Main extends JavaPlugin {
                                     }
                                 }
                                 break;
+                            case 19:
+                                if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
+                                        || mobs instanceof Dolphin || mobs instanceof Villager
+                                        || mobs instanceof WanderingTrader || mobs instanceof Allay) {
+                                    if (!Main.getMapinfos().get(loadedWorlds.get(i)).isAnimalSpawning()) {
+                                        mobs.remove();
+                                    }
+                                }
+                                break;
                             default:
                                 Bukkit.getServer().getConsoleSender().sendMessage(Main.getPrefix() + "§4Unsupported Version: §e" + Main.getFullServerversion());
                                 break;
@@ -311,6 +322,7 @@ public class Main extends JavaPlugin {
                     }
                 }
                 Bukkit.getWorld(loadedWorlds.get(i)).setGameRuleValue("randomTickSpeed", String.valueOf(getMapinfos().get(loadedWorlds.get(i)).getRandomTickSpeed()));
+                Bukkit.getWorld(loadedWorlds.get(i)).setGameRuleValue("announceAdvancements", String.valueOf(getMapinfos().get(loadedWorlds.get(i)).isAnnounceAdvancements()));
 
 
                 try {
