@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GCreate_cmd implements CommandExecutor, TabCompleter {
-    private static Long value1;
+    private Long value1;
 
     private static void addMapToLists(String worldName) {
         if (!Main.loadedWorlds.contains(worldName)) {
@@ -43,6 +43,7 @@ public class GCreate_cmd implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("gcreate")) {
             if (sender.hasPermission("Gworld.create")) {
+                value1 = null;
                 if (args.length == 2) {
                     String worldName = args[0];
                     String type = args[1];
