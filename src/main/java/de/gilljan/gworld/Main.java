@@ -7,6 +7,7 @@ package de.gilljan.gworld;
 import de.gilljan.gworld.commands.*;
 import de.gilljan.gworld.listener.AnimalSpawning_listener;
 import de.gilljan.gworld.listener.LoadWorld_listener;
+import de.gilljan.gworld.listener.PlayerJoin_listener;
 import de.gilljan.gworld.listener.WorldChange_listener;
 import de.gilljan.gworld.utils.GeneratorUtil;
 import de.gilljan.gworld.utils.MapInformation;
@@ -155,7 +156,7 @@ public class Main extends JavaPlugin {
 
             pm.registerEvents(new AnimalSpawning_listener(), this);
             pm.registerEvents(new WorldChange_listener(), this);
-            //pm.registerEvents(new PlayerJoin_listener(), this);
+            pm.registerEvents(new PlayerJoin_listener(), this);
             pm.registerEvents(new LoadWorld_listener(), this);
 
             new Metrics(this, 11160);
