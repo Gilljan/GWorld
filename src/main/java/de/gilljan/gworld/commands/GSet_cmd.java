@@ -167,6 +167,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                         case 17:
                                         case 18:
                                         case 19:
+                                        case 20:
                                             if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
                                                 if (!Main.getMapinfos().get(world).isMobSpawning()) {
                                                     mobs.remove();
@@ -226,6 +227,7 @@ public class GSet_cmd implements CommandExecutor, TabCompleter {
                                             }
                                             break;
                                         case 19:
+                                        case 20:
                                             if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
                                                     || mobs instanceof Dolphin || mobs instanceof Villager
                                                     || mobs instanceof WanderingTrader || mobs instanceof Allay) {

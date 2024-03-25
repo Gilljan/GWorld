@@ -504,6 +504,7 @@ public class GWorldAPI implements IGWorldAPI {
                     case 17:
                     case 18:
                     case 19:
+                    case 20:
                         if (mobs instanceof Monster || mobs instanceof IronGolem || mobs instanceof Slime || mobs instanceof MagmaCube || mobs instanceof Shulker || mobs instanceof EnderDragon) {
                             if (!Main.getMapinfos().get(worldName).isMobSpawning()) {
                                 mobs.remove();
@@ -565,6 +566,7 @@ public class GWorldAPI implements IGWorldAPI {
                             }
                             break;
                         case 19:
+                        case 20:
                             if (mobs instanceof Animals || mobs instanceof Squid || mobs instanceof Bat || mobs instanceof Fish
                                     || mobs instanceof Dolphin || mobs instanceof Villager
                                     || mobs instanceof WanderingTrader || mobs instanceof Allay) {
